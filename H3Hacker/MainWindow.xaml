@@ -1,0 +1,46 @@
+﻿<Window x:Class="H3Hacker.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Win10 H3Hacker" Height="350" Width="650">
+    <Grid x:Name="MainWindowPanel" Height="350" Width="650">
+        <StackPanel Orientation="Vertical" Width="650">
+            <StackPanel Orientation="Horizontal" Width="650">
+                <TextBlock FontSize="30" Margin ="5,5,0,0" Text="玩家颜色"/>
+                <ComboBox FontSize="24" 
+                                 VerticalAlignment="Top"
+                                 Width="70"
+                                 Margin="5,5,0,0"
+                                 SelectedIndex="{Binding PlayerColorIndex}"
+                                 SelectionChanged= "PlayerColor_SelectionChanged">
+                    <ComboBoxItem>红</ComboBoxItem>
+                    <ComboBoxItem>蓝</ComboBoxItem>
+                    <ComboBoxItem>褐</ComboBoxItem>
+                    <ComboBoxItem>绿</ComboBoxItem>
+                    <ComboBoxItem>橙</ComboBoxItem>
+                    <ComboBoxItem>紫</ComboBoxItem>
+                    <ComboBoxItem>青</ComboBoxItem>
+                    <ComboBoxItem>粉</ComboBoxItem>
+                </ComboBox>
+                <Button FontSize="25.5" Width ="80" Margin="5,5,0,0" VerticalAlignment="Top" Click="Load_OnClick">
+                    读取
+                </Button>
+                <Button FontSize="25.5" Width ="80" Margin="5,5,0,0" VerticalAlignment="Top" Click="Resource_OnClick" IsEnabled="{Binding GameLoaded}">
+                    资源
+                </Button>
+                <Button FontSize="25.5" Width ="100" Margin="5,5,0,0" VerticalAlignment="Top" Click="Commander_OnClick" IsEnabled="{Binding GameLoaded}">
+                    指挥官
+                </Button>
+                <Button FontSize="25.5" Width ="100" Margin="5,5,0,0" VerticalAlignment="Top" Click="Creature_OnClick" IsEnabled="{Binding GameLoaded}">
+                    比蒙
+                </Button>
+            </StackPanel>
+            <ListBox ItemsSource="{Binding Heroes}"
+                           SelectedItem="{Binding SelectedHero, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                           SelectionMode="Single">                
+            </ListBox>
+        </StackPanel>
+    </Grid>
+</Window>
