@@ -39,12 +39,11 @@ namespace H3Hacker
         private void Resource_OnClick(object sender, RoutedEventArgs e)
         {
             this.gameMemoryManager.MaxAllResources(this.mainPageViewModel.PlayerColorIndex);
-            MessageBox.Show("全资源99999999");
         }
 
         private void Commander_OnClick(object sender, RoutedEventArgs e)
         {
-
+            this.gameMemoryManager.ModifyCommander(this.mainPageViewModel.SelectedHero.Index);
         }
 
         private void Creature_OnClick(object sender, RoutedEventArgs e)

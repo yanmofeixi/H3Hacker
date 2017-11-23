@@ -56,6 +56,7 @@
     <Compile Include="GameSettings\Constants.cs" />
     <Compile Include="Model\Hero.cs" />
     <Compile Include="Utility\GameMemoryManager.cs" />
+    <Compile Include="Utility\GBKEncoding.cs" />
     <Compile Include="Utility\ProcessMemoryReaderApi.cs" />
     <Compile Include="ViewModel\HeroViewModel.cs" />
     <Compile Include="ViewModel\MainPageViewModel.cs" />

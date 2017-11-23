@@ -26,13 +26,14 @@ namespace H3Hacker.GameSettings
 
         public static IntPtr MithrilAddress = new IntPtr(0x027F9A00);
 
-        public static IntPtr CommanderBaseAddress = new IntPtr(0x02846BC4);
+        public static IntPtr CommanderBaseAddress = new IntPtr(0x028621B4);
 
         public const int CommanderMemorySize = 0x00000128;
 
-        public static List<byte[]> PlayerTypeNames = new List<byte[]>
+        public static List<string> PlayerTypeNames = new List<string>
         {
-            Encoding.GetEncoding("GBK").GetBytes("电脑"),
+            "电脑",
+            "Player"
         };
 
         public static List<string> Colors = new List<string>
@@ -45,6 +46,20 @@ namespace H3Hacker.GameSettings
             "紫",
             "青",
             "粉"
+        };
+
+        public static List<string> CommanderItems = new List<string>
+        {
+            "击碎之斧",
+            "秘银之甲",
+            "锋利之剑",
+            "不朽之冠",
+            "巫术项链",
+            "加速之靴",
+            "搜寻之弓",
+            "龙眼戒",
+            "硬化之盾",
+            "斯拉瓦的力量之戒"
         };
     }
 }

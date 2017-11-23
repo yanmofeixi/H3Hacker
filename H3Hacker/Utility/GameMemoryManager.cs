@@ -52,6 +52,37 @@ namespace H3Hacker.Utility
             return true;
         }
 
+        internal void ModifyCommander(int heroIndex)
+        {
+            var commanderAddress = Constants.CommanderBaseAddress + heroIndex * Constants.CommanderMemorySize;
+            var level = BitConverter.GetBytes(1);
+            var skills = new byte[28];
+            for(var i = 0; i < 7; i++)
+            {
+                skills[4 * i] = level[0];
+                skills[4 * i + 1] = level[1];
+                skills[4 * i + 2] = level[2];
+                skills[4 * i + 3] = level[3];
+            }
+            this.WriteMemory(commanderAddress - 0xBC, skills);
+            var itemsToAdd = new List<string>
+            {
+                "击碎之斧",
+                "秘银之甲",
+                "锋利之剑",
+                "不朽之冠",
+                "加速之靴",
+                "硬化之盾"
+            };
+
+            for(var i = 0; i < 6; i++)
+            {
+                var itemIndex = (short) Constants.CommanderItems.IndexOf(itemsToAdd[i]);
+                var itemBytes = BitConverter.GetBytes((short)(itemIndex + 0x92));
+                this.WriteMemory(commanderAddress - 0xA0 + 0x10 * i, itemBytes);
+            }
+        }
+
         internal void MaxAllResources(int playerColorIndex)
         {
             var max = BitConverter.GetBytes(Constants.MaxResourceAmount);
@@ -113,8 +144,8 @@ namespace H3Hacker.Utility
                 if (this.HeroExist(currentHeroAddress))
                 {
                     this.heroes.Add(new Hero {
-                        Name = this.GetHeroName(currentHeroAddress),
-                        Color = this.GetHeroColor(currentHeroAddress),
+                        Name = this.ReadMemory(currentHeroAddress, 12).ToStringGBK(),
+                        Color = this.ReadMemory(currentHeroAddress - 1, 1)[0],
                         Address = currentHeroAddress,
                         Index = i
                     });
@@ -123,43 +154,19 @@ namespace H3Hacker.Utility
             }
         }
 
-        private string GetHeroName(IntPtr address)
-        {
-            var memory = this.ReadMemory(address, 12);
-            return Encoding.GetEncoding("GBK").GetString(memory).Trim(new char[] { '\0'});
-        }
-
-        private byte GetHeroColor(IntPtr address)
-        {
-            var memory = this.ReadMemory(address - 1, 1);
-            return memory[0];
-        }
-
         private bool HeroExist(IntPtr address)
         {
-            return this.GetHeroColor(address) != 0xFF;
+            return this.ReadMemory(address - 1, 1)[0] != 0xFF;
         }
 
         private bool IsAddressName(IntPtr address)
         {
             var memory = this.ReadMemory(address - Constants.ComputerNameMemoryOffset, 9);
-            if(Constants.PlayerTypeNames.Any(name => MemoryMatch(name.Length, name, memory)))
+            if(Constants.PlayerTypeNames.Any(name => name == memory.ToStringGBK()))
             {
                 return true;
             }
             return false;
-
-            bool MemoryMatch(int bufferSizeToMatch, byte[] A, byte[] B)
-            {
-                for(var i = 0; i < bufferSizeToMatch; i++)
-                {
-                    if(A[i] != B[i])
-                    {
-                        return false;
-                    }
-                }
-                return true;
-            }
         }
     }
 }
