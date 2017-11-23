@@ -3,7 +3,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace H3Hacker.Utility
+namespace H3Hacker.Memory
 {
     public class ProcessMemoryReaderApi
     {

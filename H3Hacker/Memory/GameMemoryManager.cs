@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using H3Hacker.Model;
 using H3Hacker.GameSettings;
+using H3Hacker.Utility;
 
-namespace H3Hacker.Utility
+namespace H3Hacker.Memory
 {
     internal class GameMemoryManager
     {
@@ -54,8 +54,9 @@ namespace H3Hacker.Utility
 
         internal void ModifyCommander(int heroIndex)
         {
+            var basicSkillLevel = 1;
             var commanderAddress = Constants.CommanderBaseAddress + heroIndex * Constants.CommanderMemorySize;
-            var level = BitConverter.GetBytes(1);
+            var level = BitConverter.GetBytes(basicSkillLevel);
             var skills = new byte[28];
             for(var i = 0; i < 7; i++)
             {
@@ -80,6 +81,27 @@ namespace H3Hacker.Utility
                 var itemIndex = (short) Constants.CommanderItems.IndexOf(itemsToAdd[i]);
                 var itemBytes = BitConverter.GetBytes((short)(itemIndex + 0x92));
                 this.WriteMemory(commanderAddress - 0xA0 + 0x10 * i, itemBytes);
+            }
+        }
+
+        internal void AddCreature(int heroIndex)
+        {
+            var amountToAdd = 1;
+            var creatureToAdd = "幽灵比蒙";
+            var hero = this.heroes.SingleOrDefault(h => h.Index == heroIndex);
+            var creatureTypeAddress = hero.Address + 0x6E;
+            var creatureTypes = this.ReadMemory(creatureTypeAddress, 28);
+            for(var i = 0; i < 7; i++)
+            {
+                var creatureType = BitConverter.ToUInt32(creatureTypes, 4 * i);
+                if(creatureType == Constants.NullCreatureType)
+                {
+                    var newCreatureType = BitConverter.GetBytes(Constants.CreatureNames.IndexOf(creatureToAdd));
+                    var newCreatureAmout = BitConverter.GetBytes(amountToAdd);
+                    this.WriteMemory(creatureTypeAddress + 4 * i, newCreatureType);
+                    this.WriteMemory(creatureTypeAddress + 28 + 4 * i, newCreatureAmout);
+                    return;
+                }
             }
         }
 

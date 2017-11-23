@@ -1,5 +1,5 @@
 ﻿using System.Windows;
-using H3Hacker.Utility;
+using H3Hacker.Memory;
 using H3Hacker.ViewModel;
 
 namespace H3Hacker
@@ -48,7 +48,7 @@ namespace H3Hacker
 
         private void Creature_OnClick(object sender, RoutedEventArgs e)
         {
-
+            this.gameMemoryManager.AddCreature(this.mainPageViewModel.SelectedHero.Index);
         }
 
         private void PlayerColor_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
