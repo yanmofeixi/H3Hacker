@@ -10,6 +10,8 @@ namespace H3Hacker.ViewModel
 
         private bool gameLoaded = false;
 
+        private HeroViewModel selectedHeroViewModel;
+
         public int PlayerColorIndex
         {
             get
@@ -26,7 +28,18 @@ namespace H3Hacker.ViewModel
 
         public ObservableCollection<HeroViewModel> Heroes { get; set; } = new ObservableCollection<HeroViewModel>();
 
-        public HeroViewModel SelectedHero { get; set; }
+        public HeroViewModel SelectedHero
+        {
+            get
+            {
+                return this.selectedHeroViewModel;
+            }
+            set
+            {
+                this.selectedHeroViewModel = value;
+                this.OnPropertyChanged("SelectedHero");
+            }
+        }
 
         public bool GameLoaded
         {

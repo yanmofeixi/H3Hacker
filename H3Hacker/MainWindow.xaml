@@ -3,8 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:H3Hacker.Utility" 
         mc:Ignorable="d"
-        Title="Win10 H3Hacker" Height="350" Width="650">
+        Title="H3Hacker" Height="350" Width="650">
+    <Window.Resources>
+        <local:HeroViewModelToBooleanConverter x:Key="HeroViewModelToBooleanConverter" />
+    </Window.Resources>
     <Grid x:Name="MainWindowPanel" Height="350" Width="650">
         <StackPanel Orientation="Vertical" Width="650">
             <StackPanel Orientation="Horizontal" Width="650">
@@ -30,10 +34,10 @@
                 <Button FontSize="25.5" Width ="80" Margin="5,5,0,0" VerticalAlignment="Top" Click="Resource_OnClick" IsEnabled="{Binding GameLoaded}">
                     资源
                 </Button>
-                <Button FontSize="25.5" Width ="100" Margin="5,5,0,0" VerticalAlignment="Top" Click="Commander_OnClick" IsEnabled="{Binding GameLoaded}">
+                <Button FontSize="25.5" Width ="100" Margin="5,5,0,0" VerticalAlignment="Top" Click="Commander_OnClick" IsEnabled="{Binding SelectedHero, Converter={StaticResource HeroViewModelToBooleanConverter}}">
                     指挥官
                 </Button>
-                <Button FontSize="25.5" Width ="100" Margin="5,5,0,0" VerticalAlignment="Top" Click="Creature_OnClick" IsEnabled="{Binding GameLoaded}">
+                <Button FontSize="25.5" Width ="100" Margin="5,5,0,0" VerticalAlignment="Top" Click="Creature_OnClick" IsEnabled="{Binding SelectedHero, Converter={StaticResource HeroViewModelToBooleanConverter}}">
                     比蒙
                 </Button>
             </StackPanel>
