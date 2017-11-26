@@ -6,23 +6,23 @@ namespace H3Hacker.ViewModel
 {
     internal class MainPageViewModel : ViewModelBase
     {
-        private int playerColorIndex = 0;
+        private int playerIndex = 0;
 
         private bool gameLoaded = false;
 
         private HeroViewModel selectedHeroViewModel;
 
-        public int PlayerColorIndex
+        public int PlayerIndex
         {
             get
             {
-                return this.playerColorIndex;
+                return this.playerIndex;
             }
 
             set
             {
-                this.playerColorIndex = value;
-                this.OnPropertyChanged(nameof(PlayerColorIndex));
+                this.playerIndex = value;
+                this.OnPropertyChanged(nameof(PlayerIndex));
             }
         }
 

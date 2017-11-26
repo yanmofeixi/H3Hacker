@@ -1,9 +1,9 @@
 ﻿<Window x:Class="H3Hacker.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:H3Hacker.Utility" 
+        xmlns:local="clr-namespace:H3Hacker.Utility"
         mc:Ignorable="d"
         Title="H3Hacker" Height="800" Width="1200">
     <Window.Resources>
@@ -17,8 +17,8 @@
                                  VerticalAlignment="Top"
                                  Width="70"
                                  Margin="5,5,0,0"
-                                 SelectedIndex="{Binding PlayerColorIndex}"
-                                 SelectionChanged= "PlayerColor_SelectionChanged">
+                                 SelectedIndex="{Binding PlayerIndex}"
+                                 SelectionChanged= "PlayerIndexChanged">
                     <ComboBoxItem>红</ComboBoxItem>
                     <ComboBoxItem>蓝</ComboBoxItem>
                     <ComboBoxItem>褐</ComboBoxItem>

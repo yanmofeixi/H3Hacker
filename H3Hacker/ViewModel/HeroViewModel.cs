@@ -14,11 +14,19 @@ namespace H3Hacker.ViewModel
             this.hero = hero;
         }
 
-        internal int Index
+        internal int HeroIndex
         {
             get
             {
-                return this.hero.Index;
+                return this.hero.HeroIndex;
+            }
+        }
+
+        internal int PlayerIndex
+        {
+            get
+            {
+                return this.hero.PlayerIndex;
             }
         }
 

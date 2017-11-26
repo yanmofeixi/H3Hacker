@@ -54,8 +54,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="GameSettings\Constants.cs" />
+    <Compile Include="Model\Creature.cs" />
     <Compile Include="Model\Hero.cs" />
     <Compile Include="Memory\GameMemoryManager.cs" />
+    <Compile Include="Model\Player.cs" />
     <Compile Include="Utility\Utility.cs" />
     <Compile Include="Memory\ProcessMemoryReaderApi.cs" />
     <Compile Include="ViewModel\BasicSkillViewModel.cs" />

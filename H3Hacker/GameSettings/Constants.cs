@@ -3,49 +3,51 @@ using System.Collections.Generic;
 
 namespace H3Hacker.GameSettings
 {
-    public class Constants
+    internal class Constants
     {
-        public const int ComputerNameMemoryOffset = 0x000000CF;
+        internal const int ComputerNameMemoryOffset = 0x000000CF;
 
-        public const int MemoryScanStartAddress = 0x0800168B;
+        internal const int MemoryScanStartAddress = 0x0800168B;
 
-        public const int MemoryScanEndAddress = 0x0B00168B;
+        internal const int MemoryScanEndAddress = 0x0B00168B;
 
-        public const int MemoryScanSkip = 0x00010000;
+        internal const int MemoryScanSkip = 0x00010000;
 
-        public const int HeroTotalAmount = 156;
+        internal const int HeroTotalAmount = 156;
 
-        public const int HeroBasicSkillAmount = 28;
+        internal const int HeroBasicSkillAmount = 28;
 
-        public const int HeroMemorySize = 0x00000492;
+        internal const int HeroMemorySize = 0x00000492;
 
-        public const int PlayerMemoryOffset = 0x00000AD7;
+        internal const int PlayerAmount = 8;
 
-        public const int PlayerMemorySize = 0x00000168;
+        internal const int PlayerMemoryOffset = 0x00000AD7;
 
-        public const uint NullCreatureType = 0xFFFFFFFF;
+        internal const int PlayerMemorySize = 0x00000168;
 
-        public const int BasicResourceTypeAmount = 7;
+        internal const uint NullCreatureType = 0xFFFFFFFF;
 
-        public const int CreatureAmount = 7;
+        internal const int BasicResourceTypeAmount = 7;
 
-        public static IntPtr MithrilAddress = new IntPtr(0x027F9A00);
+        internal const int CreatureAmount = 7;
 
-        public static IntPtr CommanderBaseAddress = new IntPtr(0x028621B4);
+        internal static IntPtr MithrilAddress = new IntPtr(0x027F9A00);
 
-        public const int CommanderMemorySize = 0x00000128;
+        internal static IntPtr CommanderBaseAddress = new IntPtr(0x028621B4);
 
-        public const int CommanderBasicSkillAmount = 6;
+        internal const int CommanderMemorySize = 0x00000128;
 
-        public const int CommanderItemAmount = 6;
+        internal const int CommanderBasicSkillAmount = 6;
 
-        public static List<string> PlayerTypeNames = new List<string>
+        internal const int CommanderItemAmount = 6;
+
+        internal static List<string> PlayerTypeNames = new List<string>
         {
             "电脑",
             "Player"
         };
 
-        public static List<string> Colors = new List<string>
+        internal static List<string> Colors = new List<string>
         {
             "红",
             "蓝",
@@ -57,7 +59,7 @@ namespace H3Hacker.GameSettings
             "粉"
         };
 
-        public static List<string> CommanderItems = new List<string>
+        internal static List<string> CommanderItems = new List<string>
         {
             "击碎之斧",
             "秘银之甲",
@@ -71,7 +73,7 @@ namespace H3Hacker.GameSettings
             "斯拉瓦的力量之戒"
         };
 
-        public static List<string> CreatureNames = new List<string>
+        internal static List<string> CreatureNames = new List<string>
         {
             "枪兵",
             "戟兵",
@@ -272,7 +274,7 @@ namespace H3Hacker.GameSettings
             "龙巫妖"
         };
 
-        public static List<string> BasicSkillNames = new List<string>
+        internal static List<string> BasicSkillNames = new List<string>
         {
             "箭术",
             "寻路术",
@@ -304,12 +306,23 @@ namespace H3Hacker.GameSettings
             "急救术"
         };
 
-        public static List<string> BasicSkillLevelNames = new List<string>
+        internal static List<string> BasicSkillLevelNames = new List<string>
         {
             "无",
             "初级",
             "中级",
             "高级"
+        };
+
+        internal static List<string> ResourceNames = new List<string>
+        {
+            "木材",
+            "水银",
+            "石头",
+            "硫磺",
+            "水晶",
+            "宝石",
+            "黄金"
         };
     }
 }

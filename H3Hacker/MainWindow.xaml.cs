@@ -21,7 +21,7 @@ namespace H3Hacker
         {
             if (this.gameMemoryManager.OpenProcess())
             {
-                this.mainPageViewModel.AddHeroes(this.gameMemoryManager.GetHeroes(this.mainPageViewModel.PlayerColorIndex));
+                this.mainPageViewModel.AddHeroes(this.gameMemoryManager.GetHeroes(this.mainPageViewModel.PlayerIndex));
                 this.mainPageViewModel.GameLoaded = true;
             }
             else
@@ -39,11 +39,11 @@ namespace H3Hacker
 
         private void Resource_OnClick(object sender, RoutedEventArgs e)
         {
-            var resourceAmount = 99999999;
+            var basicResourceAmount = 99999999;
             var mithrilAmount = 999999;
             this.gameMemoryManager.SetAllResources(
-                this.mainPageViewModel.PlayerColorIndex,
-                resourceAmount,
+                this.mainPageViewModel.PlayerIndex,
+                basicResourceAmount,
                 mithrilAmount);
         }
 
@@ -60,7 +60,7 @@ namespace H3Hacker
             };
             var basicSkillLevel = 1;
             this.gameMemoryManager.ModifyCommander(
-                this.mainPageViewModel.SelectedHero.Index, 
+                this.mainPageViewModel.SelectedHero.HeroIndex, 
                 itemsToAdd,
                 basicSkillLevel);
         }
@@ -70,19 +70,20 @@ namespace H3Hacker
             var creatureToAdd = "幽灵比蒙";
             var amountToAdd = 1;
             this.gameMemoryManager.AddCreature(
-                this.mainPageViewModel.SelectedHero.Index, 
+                this.mainPageViewModel.SelectedHero.HeroIndex,
+                this.mainPageViewModel.SelectedHero.PlayerIndex,
                 creatureToAdd,
                 amountToAdd);
         }
 
-        private void PlayerColor_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        private void PlayerIndexChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
             this.Initialize();
         }
 
         private void Save_OnClick(object sender, RoutedEventArgs e)
         {
-            this.gameMemoryManager.Save();
+            this.gameMemoryManager.SaveGame();
         }
     }
 }
