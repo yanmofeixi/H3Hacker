@@ -15,21 +15,29 @@ namespace H3Hacker.GameSettings
 
         public const int HeroTotalAmount = 156;
 
+        public const int HeroBasicSkillAmount = 28;
+
         public const int HeroMemorySize = 0x00000492;
 
         public const int PlayerMemoryOffset = 0x00000AD7;
 
         public const int PlayerMemorySize = 0x00000168;
 
-        public const int MaxResourceAmount = 99999999;
-
         public const uint NullCreatureType = 0xFFFFFFFF;
+
+        public const int BasicResourceTypeAmount = 7;
+
+        public const int CreatureAmount = 7;
 
         public static IntPtr MithrilAddress = new IntPtr(0x027F9A00);
 
         public static IntPtr CommanderBaseAddress = new IntPtr(0x028621B4);
 
         public const int CommanderMemorySize = 0x00000128;
+
+        public const int CommanderBasicSkillAmount = 6;
+
+        public const int CommanderItemAmount = 6;
 
         public static List<string> PlayerTypeNames = new List<string>
         {
@@ -262,6 +270,46 @@ namespace H3Hacker.GameSettings
             "变狼人",
             "地狱战马",
             "龙巫妖"
+        };
+
+        public static List<string> BasicSkillNames = new List<string>
+        {
+            "箭术",
+            "寻路术",
+            "后勤学",
+            "侦察术",
+            "外交术",
+            "航海术",
+            "领导术",
+            "智慧术",
+            "神秘术",
+            "幸运术",
+            "弹道术",
+            "鹰眼术",
+            "招魂术",
+            "理财术",
+            "火系魔法",
+            "气系魔法",
+            "水系魔法",
+            "土系魔法",
+            "学术",
+            "战术",
+            "炮术",
+            "学习能力",
+            "进攻术",
+            "防御术",
+            "智力",
+            "魔力",
+            "抵抗力",
+            "急救术"
+        };
+
+        public static List<string> BasicSkillLevelNames = new List<string>
+        {
+            "无",
+            "初级",
+            "中级",
+            "高级"
         };
     }
 }

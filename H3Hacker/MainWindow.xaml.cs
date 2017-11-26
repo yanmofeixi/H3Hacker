@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using H3Hacker.Memory;
 using H3Hacker.ViewModel;
+using System.Collections.Generic;
 
 namespace H3Hacker
 {
@@ -38,22 +39,50 @@ namespace H3Hacker
 
         private void Resource_OnClick(object sender, RoutedEventArgs e)
         {
-            this.gameMemoryManager.MaxAllResources(this.mainPageViewModel.PlayerColorIndex);
+            var resourceAmount = 99999999;
+            var mithrilAmount = 999999;
+            this.gameMemoryManager.SetAllResources(
+                this.mainPageViewModel.PlayerColorIndex,
+                resourceAmount,
+                mithrilAmount);
         }
 
         private void Commander_OnClick(object sender, RoutedEventArgs e)
         {
-            this.gameMemoryManager.ModifyCommander(this.mainPageViewModel.SelectedHero.Index);
+            var itemsToAdd = new List<string>
+            {
+                "击碎之斧",
+                "秘银之甲",
+                "锋利之剑",
+                "不朽之冠",
+                "加速之靴",
+                "硬化之盾"
+            };
+            var basicSkillLevel = 1;
+            this.gameMemoryManager.ModifyCommander(
+                this.mainPageViewModel.SelectedHero.Index, 
+                itemsToAdd,
+                basicSkillLevel);
         }
 
         private void Creature_OnClick(object sender, RoutedEventArgs e)
         {
-            this.gameMemoryManager.AddCreature(this.mainPageViewModel.SelectedHero.Index);
+            var creatureToAdd = "幽灵比蒙";
+            var amountToAdd = 1;
+            this.gameMemoryManager.AddCreature(
+                this.mainPageViewModel.SelectedHero.Index, 
+                creatureToAdd,
+                amountToAdd);
         }
 
         private void PlayerColor_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
             this.Initialize();
+        }
+
+        private void Save_OnClick(object sender, RoutedEventArgs e)
+        {
+            this.gameMemoryManager.Save();
         }
     }
 }

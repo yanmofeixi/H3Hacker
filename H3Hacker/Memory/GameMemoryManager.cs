@@ -18,6 +18,10 @@ namespace H3Hacker.Memory
 
         private List<Hero> heroes;
 
+        private List<byte[]> resources;
+
+        private List<byte[]> mithrils;
+
         private IntPtr baseAddress;
 
         internal GameMemoryManager()
@@ -29,7 +33,7 @@ namespace H3Hacker.Memory
         {
             this.gameProcess = Process.GetProcesses().FirstOrDefault(p => p.ProcessName == "h3era");
 
-            if(this.gameProcess == null)
+            if (this.gameProcess == null)
             {
                 return false;
             }
@@ -48,84 +52,73 @@ namespace H3Hacker.Memory
             }
 
             this.PopulateHero(this.baseAddress);
-
             return true;
         }
 
-        internal void ModifyCommander(int heroIndex)
+        internal void ModifyCommander(int heroIndex, List<string> itemsToAdd, int basicSkillLevel)
         {
-            var basicSkillLevel = 1;
             var commanderAddress = Constants.CommanderBaseAddress + heroIndex * Constants.CommanderMemorySize;
             var level = BitConverter.GetBytes(basicSkillLevel);
-            var skills = new byte[28];
-            for(var i = 0; i < 7; i++)
+            var skills = new byte[4 * (Constants.CommanderBasicSkillAmount + 1)];
+            for (var i = 0; i < Constants.CommanderBasicSkillAmount + 1; i++)
             {
-                skills[4 * i] = level[0];
-                skills[4 * i + 1] = level[1];
-                skills[4 * i + 2] = level[2];
-                skills[4 * i + 3] = level[3];
+                for(var j = 0; j < 4; j++)
+                {
+                    skills[4 * i + j] = level[j];
+                }
             }
             this.WriteMemory(commanderAddress - 0xBC, skills);
-            var itemsToAdd = new List<string>
+            for (var i = 0; i < Constants.CommanderItemAmount; i++)
             {
-                "击碎之斧",
-                "秘银之甲",
-                "锋利之剑",
-                "不朽之冠",
-                "加速之靴",
-                "硬化之盾"
-            };
-
-            for(var i = 0; i < 6; i++)
-            {
-                var itemIndex = (short) Constants.CommanderItems.IndexOf(itemsToAdd[i]);
+                var itemIndex = (short)Constants.CommanderItems.IndexOf(itemsToAdd[i]);
                 var itemBytes = BitConverter.GetBytes((short)(itemIndex + 0x92));
                 this.WriteMemory(commanderAddress - 0xA0 + 0x10 * i, itemBytes);
             }
         }
 
-        internal void AddCreature(int heroIndex)
+        internal void AddCreature(int heroIndex, string creatureNameToAdd, int amountToAdd)
         {
-            var amountToAdd = 1;
-            var creatureToAdd = "幽灵比蒙";
             var hero = this.heroes.SingleOrDefault(h => h.Index == heroIndex);
             var creatureTypeAddress = hero.Address + 0x6E;
-            var creatureTypes = this.ReadMemory(creatureTypeAddress, 28);
-            for(var i = 0; i < 7; i++)
+            var creatureTypes = this.ReadMemory(creatureTypeAddress, Constants.CreatureAmount * 4);
+            for (var i = 0; i < Constants.CreatureAmount * 4; i++)
             {
                 var creatureType = BitConverter.ToUInt32(creatureTypes, 4 * i);
-                if(creatureType == Constants.NullCreatureType)
+                if (creatureType == Constants.NullCreatureType)
                 {
-                    var newCreatureType = BitConverter.GetBytes(Constants.CreatureNames.IndexOf(creatureToAdd));
+                    var newCreatureType = BitConverter.GetBytes(Constants.CreatureNames.IndexOf(creatureNameToAdd));
                     var newCreatureAmout = BitConverter.GetBytes(amountToAdd);
                     this.WriteMemory(creatureTypeAddress + 4 * i, newCreatureType);
-                    this.WriteMemory(creatureTypeAddress + 28 + 4 * i, newCreatureAmout);
+                    this.WriteMemory(creatureTypeAddress + Constants.CreatureAmount * 4 + 4 * i, newCreatureAmout);
                     return;
                 }
             }
         }
 
-        internal void MaxAllResources(int playerColorIndex)
+        internal void SetAllResources(int playerColorIndex, int resourceAmount, int mithrilAmount)
         {
-            var max = BitConverter.GetBytes(Constants.MaxResourceAmount);
-            var resourceBaseAddress = this.baseAddress 
-                - Constants.PlayerMemoryOffset 
-                + Constants.PlayerMemorySize * playerColorIndex;
-            var resources = new byte[28];
-            for(var i = 0; i < 7; i++)
+            var resourceAmountBytes = BitConverter.GetBytes(resourceAmount);
+            var resourceBaseAddress = this.GetResourceAddress(playerColorIndex);
+            var resources = new byte[4 * Constants.BasicResourceTypeAmount];
+            for (var i = 0; i < Constants.BasicResourceTypeAmount; i++)
             {
-                resources[4 * i] = max[0];
-                resources[4 * i + 1] = max[1];
-                resources[4 * i + 2] = max[2];
-                resources[4 * i + 3] = max[3];
+                for(var j = 0; j < 4; j++)
+                {
+                    resources[4 * i + j] = resourceAmountBytes[j];
+                }
             }
             this.WriteMemory(resourceBaseAddress, resources);
-            this.WriteMemory(Constants.MithrilAddress + (4 * playerColorIndex), new byte[] { 0x3F, 0x42, 0x0F });
+            this.WriteMemory(Constants.MithrilAddress + (4 * playerColorIndex), BitConverter.GetBytes(mithrilAmount));
         }
 
         internal List<Hero> GetHeroes(int playerColor)
         {
             return this.heroes.Where(h => h.Color == playerColor).ToList();
+        }
+
+        internal void Save()
+        {
+
         }
 
         private byte[] ReadMemory(IntPtr address, uint byteArrayLength)
@@ -145,8 +138,8 @@ namespace H3Hacker.Memory
 
         private IntPtr FindBaseAddress()
         {
-            for (var address = Constants.MemoryScanStartAddress; 
-                        address < Constants.MemoryScanEndAddress; 
+            for (var address = Constants.MemoryScanStartAddress;
+                        address < Constants.MemoryScanEndAddress;
                         address += Constants.MemoryScanSkip)
             {
                 if (IsAddressName(new IntPtr(address)))
@@ -160,15 +153,16 @@ namespace H3Hacker.Memory
         private void PopulateHero(IntPtr heroBaseAddress)
         {
             var currentHeroAddress = heroBaseAddress;
-
             for (var i = 0; i < Constants.HeroTotalAmount; i++)
             {
                 if (this.HeroExist(currentHeroAddress))
                 {
-                    this.heroes.Add(new Hero {
-                        Name = this.ReadMemory(currentHeroAddress, 12).ToStringGBK(),
-                        Color = this.ReadMemory(currentHeroAddress - 1, 1)[0],
+                    this.heroes.Add(new Hero
+                    {
                         Address = currentHeroAddress,
+                        BasicSkills = this.ReadMemory(currentHeroAddress + 0xA6, Constants.HeroBasicSkillAmount),
+                        Color = this.ReadMemory(currentHeroAddress - 1, 1)[0],
+                        Name = this.ReadMemory(currentHeroAddress, 12),
                         Index = i
                     });
                 }
@@ -184,11 +178,18 @@ namespace H3Hacker.Memory
         private bool IsAddressName(IntPtr address)
         {
             var memory = this.ReadMemory(address - Constants.ComputerNameMemoryOffset, 9);
-            if(Constants.PlayerTypeNames.Any(name => name == memory.ToStringGBK()))
+            if (Constants.PlayerTypeNames.Any(name => name == memory.ToStringGBK()))
             {
                 return true;
             }
             return false;
+        }
+
+        private IntPtr GetResourceAddress(int playerColorIndex)
+        {
+            return this.baseAddress
+                - Constants.PlayerMemoryOffset
+                + Constants.PlayerMemorySize * playerColorIndex;
         }
     }
 }

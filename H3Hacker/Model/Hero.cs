@@ -6,10 +6,12 @@ namespace H3Hacker.Model
     {
         public IntPtr Address;
 
+        public byte[] BasicSkills;
+
         public int Color;
 
         public int Index;
 
-        public string Name;
+        public byte[] Name;
     }
 }

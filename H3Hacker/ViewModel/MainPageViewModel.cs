@@ -37,7 +37,7 @@ namespace H3Hacker.ViewModel
             set
             {
                 this.selectedHeroViewModel = value;
-                this.OnPropertyChanged("SelectedHero");
+                this.OnPropertyChanged(nameof(SelectedHero));
             }
         }
 
@@ -55,7 +55,7 @@ namespace H3Hacker.ViewModel
             }
         }
 
-        public void AddHeroes(List<Hero> heroes)
+        internal void AddHeroes(List<Hero> heroes)
         {
             this.Heroes.Clear();
             foreach (var hero in heroes)
@@ -65,15 +65,16 @@ namespace H3Hacker.ViewModel
             this.RefreshDisplay();
         }
 
-        public void ClearHeroes()
+        internal void ClearHeroes()
         {
             this.Heroes.Clear();
             this.RefreshDisplay();
         }
 
-        private void RefreshDisplay()
+        internal void RefreshDisplay()
         {
             this.OnPropertyChanged(nameof(Heroes));
+            this.OnPropertyChanged(nameof(SelectedHero));
         }
     }
 }

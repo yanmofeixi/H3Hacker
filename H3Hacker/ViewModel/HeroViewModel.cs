@@ -1,4 +1,7 @@
-﻿using H3Hacker.Model;
+﻿using System.Collections.ObjectModel;
+using H3Hacker.GameSettings;
+using H3Hacker.Model;
+using H3Hacker.Utility;
 
 namespace H3Hacker.ViewModel
 {
@@ -19,17 +22,30 @@ namespace H3Hacker.ViewModel
             }
         }
 
-        public string Name
+        public override string ToString()
+        {
+            return this.hero.Name.ToStringGBK();
+        }
+
+        public ObservableCollection<BasicSkillViewModel> BasicSkills
         {
             get
             {
-                return this.hero.Name;
+                var skills = new ObservableCollection<BasicSkillViewModel>();
+                for (var i = 0; i < Constants.HeroBasicSkillAmount; i++)
+                {
+                    skills.Add(new BasicSkillViewModel
+                    {
+                        Name = Constants.BasicSkillNames[i],
+                        Level = Constants.BasicSkillLevelNames[this.hero.BasicSkills[i]]                     
+                    });
+                }
+                return skills;
             }
-        }
+            set
+            {
 
-        public override string ToString()
-        {
-            return this.hero.Name;
+            }
         }
     }
 }

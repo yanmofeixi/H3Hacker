@@ -5,13 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:H3Hacker.Utility" 
         mc:Ignorable="d"
-        Title="H3Hacker" Height="350" Width="650">
+        Title="H3Hacker" Height="800" Width="1200">
     <Window.Resources>
         <local:HeroViewModelToBooleanConverter x:Key="HeroViewModelToBooleanConverter" />
     </Window.Resources>
-    <Grid x:Name="MainWindowPanel" Height="350" Width="650">
-        <StackPanel Orientation="Vertical" Width="650">
-            <StackPanel Orientation="Horizontal" Width="650">
+    <Grid x:Name="MainWindowPanel" Height="800" Width="1200">
+        <StackPanel Orientation="Vertical" Width="1200">
+            <StackPanel Orientation="Horizontal" Width="1200">
                 <TextBlock FontSize="30" Margin ="5,5,0,0" Text="玩家颜色"/>
                 <ComboBox FontSize="24" 
                                  VerticalAlignment="Top"
@@ -40,11 +40,26 @@
                 <Button FontSize="25.5" Width ="100" Margin="5,5,0,0" VerticalAlignment="Top" Click="Creature_OnClick" IsEnabled="{Binding SelectedHero, Converter={StaticResource HeroViewModelToBooleanConverter}}">
                     比蒙
                 </Button>
+                <Button FontSize="25.5" Width ="100" Margin="5,5,0,0" VerticalAlignment="Top" Click="Save_OnClick">
+                    保存
+                </Button>
             </StackPanel>
-            <ListBox ItemsSource="{Binding Heroes}"
+            <StackPanel Orientation="Horizontal" Width="1200" Margin="5,5,0,0">
+                <ListBox ItemsSource="{Binding Heroes}"
                            SelectedItem="{Binding SelectedHero, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                           SelectionMode="Single">                
-            </ListBox>
+                           SelectionMode="Single"
+                           Width="200"
+                           FontSize="24">
+                </ListBox>
+                <StackPanel DataContext="{Binding SelectedHero}">
+                    <ListBox ItemsSource="{Binding BasicSkills}"
+                           SelectedItem="{Binding SelectedHero, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                           SelectionMode="Single"
+                           Width="200"
+                           FontSize="24">
+                    </ListBox>
+                </StackPanel>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </Window>
