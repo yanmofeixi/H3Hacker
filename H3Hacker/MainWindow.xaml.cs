@@ -60,7 +60,8 @@ namespace H3Hacker
             };
             var basicSkillLevel = 1;
             this.gameMemoryManager.ModifyCommander(
-                this.mainPageViewModel.SelectedHero.HeroIndex, 
+                this.mainPageViewModel.SelectedHero.HeroIndex,
+                this.mainPageViewModel.SelectedHero.PlayerIndex,
                 itemsToAdd,
                 basicSkillLevel);
         }

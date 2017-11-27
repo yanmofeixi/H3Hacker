@@ -5,25 +5,6 @@ using System.Windows.Data;
 
 namespace H3Hacker.Utility
 {
-    internal class HeroViewModelToBooleanConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType,
-            object parameter, CultureInfo culture)
-        {
-            if (value == null)
-            {
-                return false;
-            }
-            return true;
-        }
-
-        public object ConvertBack(object value, Type targetType,
-            object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
     internal static class Utility
     {
         internal static string ToStringGBK(this byte[] data)
@@ -39,14 +20,23 @@ namespace H3Hacker.Utility
             return rawString;
         }
 
-        internal static byte[] GetSubBytes(this byte[] data, int startIndex, int Length)
+        internal static byte[] SubBytes(this byte[] data, int startIndex, int Length)
         {
             var result = new byte[Length];
-            for(var i = 0; i < Length; i++)
+            for (var i = 0; i < Length; i++)
             {
                 result[i] = data[i + startIndex];
             }
             return result;
+        }
+
+        internal static void CopyToByteArray(this int intToCopy, byte[] byteArray, int startIndex)
+        {
+            var bytes = BitConverter.GetBytes(intToCopy);
+            for (var i = 0; i < 4; i++)
+            {
+                byteArray[startIndex + i] = bytes[i];
+            }
         }
     }
 }

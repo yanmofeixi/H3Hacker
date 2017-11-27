@@ -5,11 +5,17 @@ using System.Collections.Generic;
 
 namespace H3Hacker.Model
 {
-    internal class Hero
+    internal class Hero : MemoryObject
     {
-        internal IntPtr Address;
+        internal Hero(IntPtr baseAddress, int playerIndex, int heroIndex) : base(baseAddress)
+        {
+            this.PlayerIndex = playerIndex;
+            this.HeroIndex = heroIndex;
+        }
 
         internal byte[] BasicSkills;
+
+        internal Commander Commander;
 
         internal List<Creature> Creatures = new List<Creature>();
 
@@ -19,29 +25,26 @@ namespace H3Hacker.Model
 
         internal int PlayerIndex;
 
-        internal byte[] GetCreatures()
+        internal override void Load(Func<IntPtr, uint, byte[]> readMemory)
         {
-            var result = new byte[4 * 2 * Constants.CreatureAmount];
+            this.BasicSkills = readMemory(this.BaseAddress + 0xA6, Constants.HeroBasicSkillAmount);
+            this.Name = readMemory(this.BaseAddress, 12);
             for (var i = 0; i < Constants.CreatureAmount; i++)
             {
-                for (var j = 0; j < 4; j++)
-                {
-                    result[4 * i + j] = this.Creatures[i].Type[j];
-                    result[4 * i + 4 * Constants.CreatureAmount + j] = this.Creatures[i].Amount[j];
-                }
+                var creature = new Creature(this.BaseAddress + 0x6E + 4 * i);
+                creature.Load(readMemory);
+                this.Creatures.Add(creature);
             }
-            return result;
+            this.Commander = new Commander(Constants.CommanderBaseAddress + this.HeroIndex * Constants.CommanderMemorySize);
+            this.Commander.Load(readMemory);
         }
 
-        internal void SetCreatures(int index, byte[] type, byte[] amount)
+        internal override void Save(Action<IntPtr, byte[]> writeMemory)
         {
+            writeMemory(this.BaseAddress + 0xA6, this.BasicSkills);
             for (var i = 0; i < Constants.CreatureAmount; i++)
             {
-                this.Creatures.Add(new Creature
-                {
-                    Type = type.GetSubBytes(4 * i, 4),
-                    Amount = amount.GetSubBytes(4 * i, 4)
-                });
+                this.Creatures[i].Save(writeMemory);
             }
         }
     }
