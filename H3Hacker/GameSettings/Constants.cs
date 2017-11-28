@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace H3Hacker.GameSettings
 {
-    internal class Constants
+    public static class Constants
     {
         internal const int ComputerNameMemoryOffset = 0x000000CF;
 
@@ -23,7 +23,7 @@ namespace H3Hacker.GameSettings
             "Player"
         };
 
-        internal static List<string> Colors = new List<string>
+        public static List<string> Colors = new List<string>
         {
             "红",
             "蓝",
@@ -252,8 +252,8 @@ namespace H3Hacker.GameSettings
 
         internal static List<string> BasicSkillNames = new List<string>
         {
-            "箭术",
             "寻路术",
+            "箭术",
             "后勤学",
             "侦察术",
             "外交术",
@@ -282,7 +282,7 @@ namespace H3Hacker.GameSettings
             "急救术"
         };
 
-        internal static List<string> BasicSkillLevelNames = new List<string>
+        public static List<string> BasicSkillLevelNames = new List<string>
         {
             "无",
             "初级",
@@ -301,7 +301,7 @@ namespace H3Hacker.GameSettings
             "黄金"
         };
 
-        internal static List<string> StatsNames = new List<string>
+        public static List<string> StatsNames = new List<string>
         {
             "攻击",
             "防御",

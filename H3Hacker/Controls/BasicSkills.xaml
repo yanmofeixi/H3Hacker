@@ -1,0 +1,38 @@
+﻿<UserControl x:Class="H3Hacker.Controls.BasicSkills"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:gamesetting="clr-namespace:H3Hacker.GameSettings"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <StackPanel DataContext="{Binding SelectedHero}">
+        <ListBox ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                                   Height="270"
+                                   HorizontalContentAlignment="Center"
+                                   ItemsSource="{Binding BasicSkills}"
+                                   BorderThickness="0">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal" Width="150">
+                        <TextBlock Text="{Binding Name}" 
+                                               FontSize="20" 
+                                               Width="80"
+                                               HorizontalAlignment="Left"/>
+                        <ComboBox 
+                                        FontSize="20"
+                                        Width="70"
+                                        ItemsSource="{x:Static gamesetting:Constants.BasicSkillLevelNames}"
+                                        SelectedValue="{Binding Level, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        HorizontalAlignment="Right"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Vertical"/>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+        </ListBox>
+    </StackPanel>
+</UserControl>

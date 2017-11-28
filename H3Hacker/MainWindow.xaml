@@ -4,6 +4,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:H3Hacker.Utility"
+        xmlns:control="clr-namespace:H3Hacker.Controls"
+        xmlns:gamesetting="clr-namespace:H3Hacker.GameSettings"
         mc:Ignorable="d"
         Title="H3Hacker" Height="800" Width="1200">
     <Window.Resources>
@@ -18,32 +20,15 @@
                                  Width="70"
                                  Margin="5,5,0,0"
                                  SelectedIndex="{Binding PlayerIndex}"
-                                 SelectionChanged= "PlayerIndexChanged">
-                    <ComboBoxItem>红</ComboBoxItem>
-                    <ComboBoxItem>蓝</ComboBoxItem>
-                    <ComboBoxItem>褐</ComboBoxItem>
-                    <ComboBoxItem>绿</ComboBoxItem>
-                    <ComboBoxItem>橙</ComboBoxItem>
-                    <ComboBoxItem>紫</ComboBoxItem>
-                    <ComboBoxItem>青</ComboBoxItem>
-                    <ComboBoxItem>粉</ComboBoxItem>
+                                 SelectionChanged= "PlayerIndexChanged"
+                                 ItemsSource="{x:Static gamesetting:Constants.Colors}">
                 </ComboBox>
-                <Button FontSize="25.5" Width ="80" Margin="5,5,0,0" VerticalAlignment="Top" Click="Load_OnClick">
-                    读取
-                </Button>
-                <Button FontSize="25.5" Width ="80" Margin="5,5,0,0" VerticalAlignment="Top" Click="Resource_OnClick" IsEnabled="{Binding GameLoaded}">
-                    资源
-                </Button>
-                <Button FontSize="25.5" Width ="100" Margin="5,5,0,0" VerticalAlignment="Top" Click="Commander_OnClick" IsEnabled="{Binding SelectedHero, Converter={StaticResource HeroViewModelToBooleanConverter}}">
-                    指挥官
-                </Button>
-                <Button FontSize="25.5" Width ="100" Margin="5,5,0,0" VerticalAlignment="Top" Click="Creature_OnClick" IsEnabled="{Binding SelectedHero, Converter={StaticResource HeroViewModelToBooleanConverter}}">
-                    比蒙
-                </Button>
-                <Button FontSize="25.5" Width ="100" Margin="5,5,0,0" VerticalAlignment="Top" Click="Save_OnClick">
-                    保存
-                </Button>
-            </StackPanel>
+                <Button Style="{StaticResource ActionButtonStyle}" Width ="80" Click="Load_OnClick" Content="读取"/>
+                <Button Style="{StaticResource ActionButtonStyle}" Width ="80" Click="Resource_OnClick" Content="资源" IsEnabled="{Binding GameLoaded}"/>
+                <Button Style="{StaticResource ActionButtonStyle}" Width ="100" Click="Commander_OnClick" Content="指挥官" IsEnabled="{Binding SelectedHero, Converter={StaticResource HeroViewModelToBooleanConverter}}"/>
+                <Button Style="{StaticResource ActionButtonStyle}" Width ="80" Click="Creature_OnClick" Content="比蒙" IsEnabled="{Binding SelectedHero, Converter={StaticResource HeroViewModelToBooleanConverter}}"/>
+                <Button Style="{StaticResource ActionButtonStyle}" Width ="80" Click="Save_OnClick" Content="保存" IsEnabled="{Binding GameLoaded}"/>
+             </StackPanel>
             <StackPanel Orientation="Horizontal" Width="1200" Margin="5,5,0,0">
                 <ListBox ItemsSource="{Binding Heroes}"
                            SelectedItem="{Binding SelectedHero, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -51,14 +36,7 @@
                            Width="200"
                            FontSize="24">
                 </ListBox>
-                <StackPanel DataContext="{Binding SelectedHero}">
-                    <ListBox ItemsSource="{Binding BasicSkills}"
-                           SelectedItem="{Binding SelectedHero, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                           SelectionMode="Single"
-                           Width="200"
-                           FontSize="24">
-                    </ListBox>
-                </StackPanel>
+                <control:BasicSkills/>
             </StackPanel>
         </StackPanel>
     </Grid>

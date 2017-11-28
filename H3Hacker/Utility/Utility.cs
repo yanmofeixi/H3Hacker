@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Globalization;
 using System.Text;
-using System.Windows.Data;
 
 namespace H3Hacker.Utility
 {

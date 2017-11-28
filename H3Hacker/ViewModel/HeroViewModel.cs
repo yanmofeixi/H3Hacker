@@ -68,17 +68,9 @@ namespace H3Hacker.ViewModel
                 var skills = new ObservableCollection<BasicSkillViewModel>();
                 for (var i = 0; i < Hero.BasicSkillAmount; i++)
                 {
-                    skills.Add(new BasicSkillViewModel
-                    {
-                        Name = Constants.BasicSkillNames[i],
-                        Level = Constants.BasicSkillLevelNames[this.hero.BasicSkills[i]]                     
-                    });
+                    skills.Add(new BasicSkillViewModel(this.hero.BasicSkills, i));
                 }
                 return skills;
-            }
-            set
-            {
-
             }
         }
 

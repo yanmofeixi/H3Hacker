@@ -1,14 +1,38 @@
-﻿namespace H3Hacker.ViewModel
+﻿using H3Hacker.GameSettings;
+
+namespace H3Hacker.ViewModel
 {
     internal class BasicSkillViewModel : ViewModelBase
     {
-        public string Name { get; set; }
+        private int skillIndex;
 
-        public string Level { get; set; }
+        private byte[] basicSkills;
 
-        public override string ToString()
+        public BasicSkillViewModel(byte[] basicSkills, int skillIndex)
         {
-            return this.Name + this.Level;
+            this.basicSkills = basicSkills;
+            this.skillIndex = skillIndex;
+        }
+
+        public string Name
+        {
+            get
+            {
+                return Constants.BasicSkillNames[this.skillIndex];
+            }
+        }
+
+        public string Level
+        {
+            get
+            {
+                return Constants.BasicSkillLevelNames[this.basicSkills[this.skillIndex]];
+            }
+            set
+            {
+                this.basicSkills[this.skillIndex] = (byte)Constants.BasicSkillLevelNames.IndexOf(value);
+                this.OnPropertyChanged(nameof(Level));
+            }
         }
     }
 }
