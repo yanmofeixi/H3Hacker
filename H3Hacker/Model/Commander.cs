@@ -1,13 +1,18 @@
 ﻿using System;
-using H3Hacker.GameSettings;
-using H3Hacker.Utility;
 using System.Collections.Generic;
 using System.Linq;
+using H3Hacker.Utility;
 
 namespace H3Hacker.Model
 {
     internal class Commander : MemoryObject
     {
+        internal const int BasicSkillAmount = 6;
+
+        internal const int ItemAmount = 6;
+
+        internal const int MemorySize = 0x00000128;
+
         internal Commander(IntPtr baseAddress) : base(baseAddress)
         {
         }
@@ -38,8 +43,8 @@ namespace H3Hacker.Model
 
         internal override void Load(Func<IntPtr, uint, byte[]> readMemory)
         {
-            this.BasicSkills = readMemory(this.BaseAddress - 0xBC, 4 * Constants.CommanderBasicSkillAmount);
-            for (var i = 0; i < Constants.CommanderItemAmount; i++)
+            this.BasicSkills = readMemory(this.BaseAddress - 0xBC, 4 * BasicSkillAmount);
+            for (var i = 0; i < ItemAmount; i++)
             {
                 var itemToAdd = new CommanderItem(this.BaseAddress - 0xA0 + 4 * 4 * i);
                 itemToAdd.Load(readMemory);
@@ -52,8 +57,8 @@ namespace H3Hacker.Model
             //bug in wog, skill 4 appeared twice
             var additionalSkill = this.BasicSkills.SubBytes(16, 4);
             writeMemory(this.BaseAddress - 0xBC, this.BasicSkills);
-            writeMemory(this.BaseAddress - 0xBC + 4 * Constants.CommanderBasicSkillAmount, additionalSkill);
-            for (var i = 0; i < Constants.CommanderItemAmount; i++)
+            writeMemory(this.BaseAddress - 0xBC + 4 * BasicSkillAmount, additionalSkill);
+            for (var i = 0; i < ItemAmount; i++)
             {
                 this.Items[i].Save(writeMemory);
             }

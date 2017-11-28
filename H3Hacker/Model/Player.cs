@@ -1,5 +1,4 @@
-﻿using H3Hacker.GameSettings;
-using H3Hacker.Utility;
+﻿using H3Hacker.Utility;
 using System.Collections.Generic;
 using System;
 
@@ -7,6 +6,10 @@ namespace H3Hacker.Model
 {
     internal class Player : MemoryObject
     {
+        internal const int BasicResourceTypeAmount = 7;
+
+        internal const int MemorySize = 0x00000168;
+
         internal Player(IntPtr baseAddress, IntPtr mithrilAddress) : base(baseAddress)
         {
             this.MithrilAddress = mithrilAddress;
@@ -16,7 +19,7 @@ namespace H3Hacker.Model
 
         internal List<Hero> Heroes = new List<Hero>();
 
-        internal byte[] BasicResources = new byte[4 * Constants.BasicResourceTypeAmount];
+        internal byte[] BasicResources = new byte[4 * BasicResourceTypeAmount];
 
         internal byte[] Mithril = new byte[4];
 
@@ -25,17 +28,14 @@ namespace H3Hacker.Model
             return this.BasicResources.SubBytes(4 * resourceIndex, 4);
         }
 
-        internal void SetBasicResource(int resourceIndex, byte[] amount)
+        internal void SetBasicResource(int resourceIndex, int amount)
         {
-            for (var i = 0; i < 4; i++)
-            {
-                this.BasicResources[4 * resourceIndex + i] = amount[i];
-            }
+            amount.CopyToByteArray(this.BasicResources, 4 * resourceIndex);
         }
 
         internal override void Load(Func<IntPtr, uint, byte[]> readMemory)
         {
-            this.BasicResources = readMemory(this.BaseAddress, Constants.BasicResourceTypeAmount * 4);
+            this.BasicResources = readMemory(this.BaseAddress, BasicResourceTypeAmount * 4);
             this.Mithril = readMemory(this.MithrilAddress, 4);
         }
 

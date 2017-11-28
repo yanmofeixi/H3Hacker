@@ -30,6 +30,32 @@ namespace H3Hacker.ViewModel
             }
         }
 
+        public int Attack
+        {
+            get
+            {
+                return this.hero.GetStat(0);
+            }
+            set
+            {
+                this.hero.SetStat(0, value);
+                this.OnPropertyChanged(nameof(Attack));
+            }
+        }
+
+        public int Defence
+        {
+            get
+            {
+                return this.hero.GetStat(1);
+            }
+            set
+            {
+                this.hero.SetStat(1, value);
+                this.OnPropertyChanged(nameof(Defence));
+            }
+        }
+
         public override string ToString()
         {
             return this.hero.Name.ToStringGBK();
@@ -40,7 +66,7 @@ namespace H3Hacker.ViewModel
             get
             {
                 var skills = new ObservableCollection<BasicSkillViewModel>();
-                for (var i = 0; i < Constants.HeroBasicSkillAmount; i++)
+                for (var i = 0; i < Hero.BasicSkillAmount; i++)
                 {
                     skills.Add(new BasicSkillViewModel
                     {
@@ -55,5 +81,7 @@ namespace H3Hacker.ViewModel
 
             }
         }
+
+        public ObservableCollection<byte> Stats;
     }
 }

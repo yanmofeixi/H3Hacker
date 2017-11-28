@@ -49,7 +49,7 @@ namespace H3Hacker.Memory
         internal void ModifyCommander(int heroIndex, int playerIndex, List<string> itemsToAdd, int basicSkillLevel)
         {
             var commander = this.game.Players[playerIndex].Heroes.SingleOrDefault(h => h.HeroIndex == heroIndex).Commander;
-            for (var i = 0; i < Constants.CommanderBasicSkillAmount; i++)
+            for (var i = 0; i < Commander.BasicSkillAmount; i++)
             {
                 commander.SetSkill(i, basicSkillLevel);
             }
@@ -64,23 +64,23 @@ namespace H3Hacker.Memory
         internal void AddCreature(int heroIndex, int playerIndex, string creatureNameToAdd, int amountToAdd)
         {
             var hero = this.game.Players[playerIndex].Heroes.SingleOrDefault(h => h.HeroIndex == heroIndex);
-            for (var i = 0; i < Constants.CreatureAmount; i++)
+            for (var i = 0; i < Hero.CreatureAmount; i++)
             {
                 if (!hero.Creatures[i].Exist())
                 {
                     hero.Creatures[i].Type = BitConverter.GetBytes(Constants.CreatureNames.IndexOf(creatureNameToAdd));
                     hero.Creatures[i].Amount = BitConverter.GetBytes(amountToAdd);
+                    hero.Creatures[i].Save(this.WriteMemory);
                     break;
                 }
             }
-            hero.Save(this.WriteMemory);
         }
 
         internal void SetAllResources(int playerIndex, int basicResourceAmount, int mithrilAmount)
         {
-            for(var i = 0; i < Constants.BasicResourceTypeAmount; i++)
+            for(var i = 0; i < Player.BasicResourceTypeAmount; i++)
             {
-                this.game.Players[playerIndex].SetBasicResource(i, BitConverter.GetBytes(basicResourceAmount));
+                this.game.Players[playerIndex].SetBasicResource(i, basicResourceAmount);
             }
             this.game.Players[playerIndex].Mithril = BitConverter.GetBytes(mithrilAmount);
             this.game.Players[playerIndex].Save(this.WriteMemory);

@@ -13,33 +13,9 @@ namespace H3Hacker.GameSettings
 
         internal const int MemoryScanSkip = 0x00010000;
 
-        internal const int HeroTotalAmount = 156;
-
-        internal const int HeroBasicSkillAmount = 28;
-
-        internal const int HeroMemorySize = 0x00000492;
-
-        internal const int PlayerAmount = 8;
-
-        internal const int PlayerMemoryOffset = 0x00000AD7;
-
-        internal const int PlayerMemorySize = 0x00000168;
-
-        internal const uint NullCreatureType = 0xFFFFFFFF;
-
-        internal const int BasicResourceTypeAmount = 7;
-
-        internal const int CreatureAmount = 7;
-
         internal static IntPtr MithrilAddress = new IntPtr(0x027F9A00);
 
         internal static IntPtr CommanderBaseAddress = new IntPtr(0x028621B4);
-
-        internal const int CommanderMemorySize = 0x00000128;
-
-        internal const int CommanderBasicSkillAmount = 6;
-
-        internal const int CommanderItemAmount = 6;
 
         internal static List<string> PlayerTypeNames = new List<string>
         {
@@ -323,6 +299,14 @@ namespace H3Hacker.GameSettings
             "水晶",
             "宝石",
             "黄金"
+        };
+
+        internal static List<string> StatsNames = new List<string>
+        {
+            "攻击",
+            "防御",
+            "力量",
+            "知识"
         };
     }
 }

@@ -1,5 +1,5 @@
-﻿using H3Hacker.GameSettings;
-using System;
+﻿using System;
+using H3Hacker.GameSettings;
 
 namespace H3Hacker.Model
 {

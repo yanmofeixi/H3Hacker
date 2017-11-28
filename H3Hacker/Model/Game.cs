@@ -1,12 +1,17 @@
-﻿using H3Hacker.GameSettings;
-using H3Hacker.Utility;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using H3Hacker.GameSettings;
 
 namespace H3Hacker.Model
 {
     internal class Game : MemoryObject
     {
+        private const int HeroTotalAmount = 156;
+
+        private const int PlayerAmount = 8;
+
+        private const int PlayerMemoryOffset = 0x00000AD7;
+
         internal Game(IntPtr baseAddress) : base(baseAddress)
         {
         }
@@ -25,17 +30,17 @@ namespace H3Hacker.Model
         {
             this.Players = new List<Player>();
             this.Players = new List<Player>();
-            for (var i = 0; i < Constants.PlayerAmount; i++)
+            for (var i = 0; i < PlayerAmount; i++)
             {
                 var playerToAdd = new Player(
-                    this.BaseAddress - Constants.PlayerMemoryOffset + Constants.PlayerMemorySize * i, 
+                    this.BaseAddress - PlayerMemoryOffset + Player.MemorySize * i, 
                     Constants.MithrilAddress + 4 * i);
                 playerToAdd.Load(readMemory);
                 this.Players.Add(playerToAdd);
             }
 
             var currentHeroAddress = this.BaseAddress;
-            for (var i = 0; i < Constants.HeroTotalAmount; i++)
+            for (var i = 0; i < HeroTotalAmount; i++)
             {
                 var playerIndex = readMemory(currentHeroAddress - 1, 1)[0];
                 if (playerIndex != 0xFF) //hero exists
@@ -44,13 +49,13 @@ namespace H3Hacker.Model
                     heroToAdd.Load(readMemory);
                     this.Players[heroToAdd.PlayerIndex].Heroes.Add(heroToAdd);
                 }
-                currentHeroAddress += Constants.HeroMemorySize;
+                currentHeroAddress += Hero.MemorySize;
             }
         }
 
         internal override void Save(Action<IntPtr, byte[]> writeMemory)
         {
-            for (var i = 0; i < Constants.PlayerAmount; i++)
+            for (var i = 0; i < PlayerAmount; i++)
             {
                 this.Players[i].Save(writeMemory);
             }
