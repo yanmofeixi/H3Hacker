@@ -96,7 +96,7 @@ namespace H3Hacker.GameMemory
 
                     while(true)
                     {
-                        var bytesRead = this.memory.ReadMemory(address + Player.MemorySize, (uint) nameBytes.Length);
+                        var bytesRead = this.memory.ReadMemory(IntPtr.Add(address, Player.MemorySize), (uint) nameBytes.Length);
                         if(!MemoryUtility.BytesMatch(bytesRead, nameBytes))
                         {
                             return IntPtr.Add(address, Player.NameOffset);
