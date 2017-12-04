@@ -14,11 +14,11 @@ namespace H3Hacker.Model
 
         internal const int MemorySize = 0x00000492;
 
-        internal const int BasicSkillAmount = 28;
+        internal static int BasicSkillAmount = Constants.BasicSkillNames.Count;
+
+        internal static int StatsAmount = Constants.StatsNames.Count;
 
         internal const int CreatureAmount = 7;
-
-        internal const int StatsAmount = 4;
 
         internal Hero(IntPtr baseAddress, int playerIndex, int heroIndex) : base(baseAddress)
         {
@@ -42,9 +42,9 @@ namespace H3Hacker.Model
 
         internal override void Load(Func<IntPtr, uint, byte[]> readMemory)
         {
-            this.BasicSkills = readMemory(IntPtr.Add(this.BaseAddress, BasicSkillOffset), BasicSkillAmount);
+            this.BasicSkills = readMemory(IntPtr.Add(this.BaseAddress, BasicSkillOffset), (uint) BasicSkillAmount);
             this.Name = readMemory(this.BaseAddress, 12);
-            this.Stats = readMemory(IntPtr.Add(this.BaseAddress, StatsOffset), StatsAmount);
+            this.Stats = readMemory(IntPtr.Add(this.BaseAddress, StatsOffset), (uint) StatsAmount);
             for (var i = 0; i < CreatureAmount; i++)
             {
                 var creature = new Creature(IntPtr.Add(this.BaseAddress, CreatureOffset + 4 * i));
@@ -63,24 +63,6 @@ namespace H3Hacker.Model
             {
                 this.Creatures[i].Save(writeMemory);
             }
-        }
-
-        internal int GetStat(int index)
-        {
-            return this.Stats[index];
-        }
-
-        internal void SetStat(int index, int value)
-        {
-            if (value >= 127)
-            {
-                value = 127;
-            }
-            else if (value < 0)
-            {
-                value = 0;
-            }
-            this.Stats[index] = (byte)value;
         }
     }
 }

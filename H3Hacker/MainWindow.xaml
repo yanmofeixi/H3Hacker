@@ -34,10 +34,12 @@
                            SelectedItem="{Binding SelectedHero, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                            SelectionMode="Single"
                            Width="200"
-                           FontSize="24">
+                           Height="280"
+                           FontSize="24" Margin="0" VerticalContentAlignment="Top">
                 </ListBox>
                 <control:BasicSkills/>
-            </StackPanel>
+                <control:Stats/>
+            </StackPanel>            
         </StackPanel>
     </Grid>
 </Window>

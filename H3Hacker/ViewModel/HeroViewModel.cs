@@ -1,5 +1,5 @@
 ﻿using System.Collections.ObjectModel;
-using H3Hacker.GameSettings;
+using System.Linq;
 using H3Hacker.Model;
 using H3Hacker.Utility;
 
@@ -30,32 +30,6 @@ namespace H3Hacker.ViewModel
             }
         }
 
-        public int Attack
-        {
-            get
-            {
-                return this.hero.GetStat(0);
-            }
-            set
-            {
-                this.hero.SetStat(0, value);
-                this.OnPropertyChanged(nameof(Attack));
-            }
-        }
-
-        public int Defence
-        {
-            get
-            {
-                return this.hero.GetStat(1);
-            }
-            set
-            {
-                this.hero.SetStat(1, value);
-                this.OnPropertyChanged(nameof(Defence));
-            }
-        }
-
         public override string ToString()
         {
             return this.hero.Name.ToStringGBK();
@@ -74,6 +48,17 @@ namespace H3Hacker.ViewModel
             }
         }
 
-        //public ObservableCollection<byte> Stats;
+        public ObservableCollection<StatViewModel> Stats
+        {
+            get
+            {
+                var skills = new ObservableCollection<StatViewModel>();
+                for (var i = 0; i < Hero.StatsAmount; i++)
+                {
+                    skills.Add(new StatViewModel(this.hero.Stats, i));
+                }
+                return skills;
+            }
+        }
     }
 }

@@ -59,6 +59,9 @@
     <Compile Include="Controls\BasicSkills.xaml.cs">
       <DependentUpon>BasicSkills.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Stats.xaml.cs">
+      <DependentUpon>Stats.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GameSettings\Constants.cs" />
     <Compile Include="Model\Commander.cs" />
     <Compile Include="Model\CommanderItem.cs" />
@@ -73,8 +76,13 @@
     <Compile Include="ViewModel\BasicSkillViewModel.cs" />
     <Compile Include="ViewModel\HeroViewModel.cs" />
     <Compile Include="ViewModel\MainPageViewModel.cs" />
+    <Compile Include="ViewModel\StatViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Page Include="Controls\BasicSkills.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Stats.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
