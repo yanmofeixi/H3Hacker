@@ -1,5 +1,5 @@
 ﻿using System.Windows;
-using H3Hacker.Memory;
+using H3Hacker.GameMemory;
 using H3Hacker.ViewModel;
 using System.Collections.Generic;
 

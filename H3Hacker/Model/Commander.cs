@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using H3Hacker.Utility;
+using ProcessMemoryScanner;
 
 namespace H3Hacker.Model
 {
@@ -46,7 +47,7 @@ namespace H3Hacker.Model
             this.BasicSkills = readMemory(this.BaseAddress - 0xBC, 4 * BasicSkillAmount);
             for (var i = 0; i < ItemAmount; i++)
             {
-                var itemToAdd = new CommanderItem(this.BaseAddress - 0xA0 + 4 * 4 * i);
+                var itemToAdd = new CommanderItem(IntPtr.Add(this.BaseAddress, - 0xA0 + 4 * 4 * i));
                 itemToAdd.Load(readMemory);
                 this.Items.Add(itemToAdd);
             }
@@ -56,8 +57,8 @@ namespace H3Hacker.Model
         {
             //bug in wog, skill 4 appeared twice
             var additionalSkill = this.BasicSkills.SubBytes(16, 4);
-            writeMemory(this.BaseAddress - 0xBC, this.BasicSkills);
-            writeMemory(this.BaseAddress - 0xBC + 4 * BasicSkillAmount, additionalSkill);
+            writeMemory(IntPtr.Add(this.BaseAddress, - 0xBC), this.BasicSkills);
+            writeMemory(IntPtr.Add(this.BaseAddress, - 0xBC + 4 * BasicSkillAmount), additionalSkill);
             for (var i = 0; i < ItemAmount; i++)
             {
                 this.Items[i].Save(writeMemory);

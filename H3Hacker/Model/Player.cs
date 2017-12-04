@@ -1,6 +1,7 @@
 ﻿using H3Hacker.Utility;
 using System.Collections.Generic;
 using System;
+using ProcessMemoryScanner;
 
 namespace H3Hacker.Model
 {
@@ -9,6 +10,8 @@ namespace H3Hacker.Model
         internal const int BasicResourceTypeAmount = 7;
 
         internal const int MemorySize = 0x00000168;
+
+        internal const int NameOffset = 0x000000CF;
 
         internal Player(IntPtr baseAddress, IntPtr mithrilAddress) : base(baseAddress)
         {

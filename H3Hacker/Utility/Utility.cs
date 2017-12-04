@@ -18,16 +18,6 @@ namespace H3Hacker.Utility
             return rawString;
         }
 
-        internal static byte[] SubBytes(this byte[] data, int startIndex, int Length)
-        {
-            var result = new byte[Length];
-            for (var i = 0; i < Length; i++)
-            {
-                result[i] = data[i + startIndex];
-            }
-            return result;
-        }
-
         internal static void CopyToByteArray(this int intToCopy, byte[] byteArray, int startIndex)
         {
             var bytes = BitConverter.GetBytes(intToCopy);

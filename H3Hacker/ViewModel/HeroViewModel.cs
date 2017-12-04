@@ -74,6 +74,6 @@ namespace H3Hacker.ViewModel
             }
         }
 
-        public ObservableCollection<byte> Stats;
+        //public ObservableCollection<byte> Stats;
     }
 }

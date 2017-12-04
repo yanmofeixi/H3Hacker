@@ -62,12 +62,11 @@
     <Compile Include="Model\Creature.cs" />
     <Compile Include="Model\Game.cs" />
     <Compile Include="Model\Hero.cs" />
-    <Compile Include="Memory\GameMemoryManager.cs" />
+    <Compile Include="GameMemory\GameMemoryManager.cs" />
     <Compile Include="Model\MemoryObject.cs" />
     <Compile Include="Model\Player.cs" />
     <Compile Include="Utility\Converters.cs" />
     <Compile Include="Utility\Utility.cs" />
-    <Compile Include="Memory\ProcessMemoryReaderApi.cs" />
     <Compile Include="ViewModel\BasicSkillViewModel.cs" />
     <Compile Include="ViewModel\HeroViewModel.cs" />
     <Compile Include="ViewModel\MainPageViewModel.cs" />
@@ -115,6 +114,12 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ProcessMemoryScanner\ProcessMemoryScanner.csproj">
+      <Project>{30880074-66A9-49D9-83B7-741B9379395A}</Project>
+      <Name>ProcessMemoryScanner</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

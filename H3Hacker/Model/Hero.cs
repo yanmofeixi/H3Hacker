@@ -42,23 +42,23 @@ namespace H3Hacker.Model
 
         internal override void Load(Func<IntPtr, uint, byte[]> readMemory)
         {
-            this.BasicSkills = readMemory(this.BaseAddress + BasicSkillOffset, BasicSkillAmount);
+            this.BasicSkills = readMemory(IntPtr.Add(this.BaseAddress, BasicSkillOffset), BasicSkillAmount);
             this.Name = readMemory(this.BaseAddress, 12);
-            this.Stats = readMemory(this.BaseAddress + StatsOffset, StatsAmount);
+            this.Stats = readMemory(IntPtr.Add(this.BaseAddress, StatsOffset), StatsAmount);
             for (var i = 0; i < CreatureAmount; i++)
             {
-                var creature = new Creature(this.BaseAddress + CreatureOffset + 4 * i);
+                var creature = new Creature(IntPtr.Add(this.BaseAddress, CreatureOffset + 4 * i));
                 creature.Load(readMemory);
                 this.Creatures.Add(creature);
             }
-            this.Commander = new Commander(Constants.CommanderBaseAddress + this.HeroIndex * Commander.MemorySize);
+            this.Commander = new Commander(IntPtr.Add(Constants.CommanderBaseAddress, this.HeroIndex * Commander.MemorySize));
             this.Commander.Load(readMemory);
         }
 
         internal override void Save(Action<IntPtr, byte[]> writeMemory)
         {
-            writeMemory(this.BaseAddress + BasicSkillOffset, this.BasicSkills);
-            writeMemory(this.BaseAddress + StatsOffset, this.Stats);
+            writeMemory(IntPtr.Add(this.BaseAddress, BasicSkillOffset), this.BasicSkills);
+            writeMemory(IntPtr.Add(this.BaseAddress, StatsOffset), this.Stats);
             for (var i = 0; i < CreatureAmount; i++)
             {
                 this.Creatures[i].Save(writeMemory);

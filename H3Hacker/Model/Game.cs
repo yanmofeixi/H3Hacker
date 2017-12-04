@@ -33,7 +33,7 @@ namespace H3Hacker.Model
             for (var i = 0; i < PlayerAmount; i++)
             {
                 var playerToAdd = new Player(
-                    this.BaseAddress - PlayerMemoryOffset + Player.MemorySize * i, 
+                    IntPtr.Add(this.BaseAddress, - PlayerMemoryOffset + Player.MemorySize * i), 
                     Constants.MithrilAddress + 4 * i);
                 playerToAdd.Load(readMemory);
                 this.Players.Add(playerToAdd);
@@ -42,7 +42,7 @@ namespace H3Hacker.Model
             var currentHeroAddress = this.BaseAddress;
             for (var i = 0; i < HeroTotalAmount; i++)
             {
-                var playerIndex = readMemory(currentHeroAddress - 1, 1)[0];
+                var playerIndex = readMemory(IntPtr.Add(currentHeroAddress, - 1), 1)[0];
                 if (playerIndex != 0xFF) //hero exists
                 {
                     var heroToAdd = new Hero(currentHeroAddress, playerIndex, i);

@@ -5,7 +5,7 @@ namespace H3Hacker.Model
 {
     internal class CommanderItem : MemoryObject
     {
-        private const short itemOffset = 146;
+        private const short itemOffset = 0x92;
 
         public CommanderItem(IntPtr baseAddress) : base(baseAddress)
         {
@@ -18,13 +18,13 @@ namespace H3Hacker.Model
         internal override void Load(Func<IntPtr, uint, byte[]> readMemory)
         {
             this.Type = readMemory(this.BaseAddress, 2);
-            this.BattleTimes = readMemory(this.BaseAddress + 2, 2);
+            this.BattleTimes = readMemory(IntPtr.Add(this.BaseAddress, 2), 2);
         }
 
         internal override void Save(Action<IntPtr, byte[]> writeMemory)
         {
             writeMemory(this.BaseAddress, this.Type);
-            writeMemory(this.BaseAddress + 2, this.BattleTimes);
+            writeMemory(IntPtr.Add(this.BaseAddress, 2), this.BattleTimes);
         }
 
         internal bool Exist()

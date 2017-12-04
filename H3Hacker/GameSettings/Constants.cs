@@ -5,14 +5,6 @@ namespace H3Hacker.GameSettings
 {
     public static class Constants
     {
-        internal const int ComputerNameMemoryOffset = 0x000000CF;
-
-        internal const int MemoryScanStartAddress = 0x0800168B;
-
-        internal const int MemoryScanEndAddress = 0x0B00168B;
-
-        internal const int MemoryScanSkip = 0x00010000;
-
         internal static IntPtr MithrilAddress = new IntPtr(0x027F9A00);
 
         internal static IntPtr CommanderBaseAddress = new IntPtr(0x028621B4);
