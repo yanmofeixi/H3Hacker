@@ -44,7 +44,7 @@ namespace H3Hacker.Model
 
         internal override void Load(Func<IntPtr, uint, byte[]> readMemory)
         {
-            this.BasicSkills = readMemory(this.BaseAddress - 0xBC, 4 * BasicSkillAmount);
+            this.BasicSkills = readMemory(IntPtr.Add(this.BaseAddress, - 0xBC), 4 * BasicSkillAmount);
             for (var i = 0; i < ItemAmount; i++)
             {
                 var itemToAdd = new CommanderItem(IntPtr.Add(this.BaseAddress, - 0xA0 + 4 * 4 * i));

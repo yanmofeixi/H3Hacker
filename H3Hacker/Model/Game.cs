@@ -29,7 +29,6 @@ namespace H3Hacker.Model
         internal override void Load(Func<IntPtr, uint, byte[]> readMemory)
         {
             this.Players = new List<Player>();
-            this.Players = new List<Player>();
             for (var i = 0; i < PlayerAmount; i++)
             {
                 var playerToAdd = new Player(
