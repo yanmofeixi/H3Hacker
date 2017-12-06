@@ -2,6 +2,7 @@
 using System.Linq;
 using H3Hacker.Model;
 using H3Hacker.Utility;
+using System;
 
 namespace H3Hacker.ViewModel
 {
@@ -33,6 +34,46 @@ namespace H3Hacker.ViewModel
         public override string ToString()
         {
             return this.hero.Name.ToStringGBK();
+        }
+
+        public short Mana
+        {
+            get
+            {
+                return BitConverter.ToInt16(this.hero.Mana, 0);
+            }
+            set
+            {
+                if(value < 0)
+                {
+                    value = 0;
+                }
+                else if(value > short.MaxValue)
+                {
+                    value = short.MaxValue;
+                }
+                value.CopyToByteArray(this.hero.Mana, 0);
+            }
+        }
+
+        public int MovementPoint
+        {
+            get
+            {
+                return BitConverter.ToInt32(this.hero.MovementPoint, 0);
+            }
+            set
+            {
+                if (value < 0)
+                {
+                    value = 0;
+                }
+                else if (value > int.MaxValue)
+                {
+                    value = int.MaxValue;
+                }
+                value.CopyToByteArray(this.hero.MovementPoint, 0);
+            }
         }
 
         public ObservableCollection<BasicSkillViewModel> BasicSkills

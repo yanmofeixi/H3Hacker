@@ -30,9 +30,9 @@ namespace H3Hacker.ViewModel
             }
             set
             {
-                if(value > 127)
+                if(value > sbyte.MaxValue)
                 {
-                    value = 127;
+                    value = (byte)sbyte.MaxValue;
                 }
                 else if(value < 0)
                 {

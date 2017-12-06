@@ -12,6 +12,10 @@ namespace H3Hacker.Model
 
         private const int StatsOffset = 0x453;
 
+        private const int ManaOffset = -0xB;
+
+        private const int MovementPointOffset = 0x2A;
+
         internal const int MemorySize = 0x00000492;
 
         internal static int BasicSkillAmount = Constants.BasicSkillNames.Count;
@@ -40,11 +44,17 @@ namespace H3Hacker.Model
 
         internal byte[] Stats;
 
+        internal byte[] Mana;
+
+        internal byte[] MovementPoint;
+
         internal override void Load(Func<IntPtr, uint, byte[]> readMemory)
         {
             this.BasicSkills = readMemory(IntPtr.Add(this.BaseAddress, BasicSkillOffset), (uint) BasicSkillAmount);
             this.Name = readMemory(this.BaseAddress, 12);
             this.Stats = readMemory(IntPtr.Add(this.BaseAddress, StatsOffset), (uint) StatsAmount);
+            this.Mana = readMemory(IntPtr.Add(this.BaseAddress, ManaOffset), 2);
+            this.MovementPoint = readMemory(IntPtr.Add(this.BaseAddress, MovementPointOffset), 4);
             for (var i = 0; i < CreatureAmount; i++)
             {
                 var creature = new Creature(IntPtr.Add(this.BaseAddress, CreatureOffset + 4 * i));
@@ -59,10 +69,13 @@ namespace H3Hacker.Model
         {
             writeMemory(IntPtr.Add(this.BaseAddress, BasicSkillOffset), this.BasicSkills);
             writeMemory(IntPtr.Add(this.BaseAddress, StatsOffset), this.Stats);
+            writeMemory(IntPtr.Add(this.BaseAddress, ManaOffset), this.Mana);
+            writeMemory(IntPtr.Add(this.BaseAddress, MovementPointOffset), this.MovementPoint);
             for (var i = 0; i < CreatureAmount; i++)
             {
                 this.Creatures[i].Save(writeMemory);
             }
+            this.Commander.Save(writeMemory);
         }
     }
 }

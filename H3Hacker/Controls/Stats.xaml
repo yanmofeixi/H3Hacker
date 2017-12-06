@@ -3,12 +3,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:gamesetting="clr-namespace:H3Hacker.GameSettings"
+             xmlns:local="clr-namespace:H3Hacker.Utility"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <StackPanel DataContext="{Binding SelectedHero}">
+    <UserControl.Resources>
+        <local:HeroViewModelToVisibilityConverter x:Key="HeroViewModelToVisibilityConverter" />
+    </UserControl.Resources>
+    <StackPanel Orientation="Vertical">
         <ListBox ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                                   Height="270"
+                                   DataContext="{Binding SelectedHero}"
+                                   Height="133"
                                    HorizontalContentAlignment="Center"
                                    ItemsSource="{Binding Stats}"
                                    BorderThickness="0">
@@ -33,5 +37,32 @@
                 </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
         </ListBox>
+        <StackPanel Orientation="Horizontal"
+                             Visibility="{Binding SelectedHero, Converter={StaticResource HeroViewModelToVisibilityConverter}}"
+                             Width="150">
+            <TextBlock Text="魔法" 
+                              FontSize="20" 
+                              Width="80"
+                              HorizontalAlignment="Left"/>
+            <TextBox   FontSize="20"
+                              Width="70"
+                              DataContext="{Binding SelectedHero}"
+                              Text="{Binding Mana, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              HorizontalAlignment="Right"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal"
+                             Margin="0,4"
+                             Visibility="{Binding SelectedHero, Converter={StaticResource HeroViewModelToVisibilityConverter}}"
+                             Width="150">
+            <TextBlock Text="移动力" 
+                              FontSize="20" 
+                              Width="80"
+                              HorizontalAlignment="Left"/>
+            <TextBox   FontSize="20"
+                              Width="70"
+                              DataContext="{Binding SelectedHero}"
+                              Text="{Binding MovementPoint, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              HorizontalAlignment="Right"/>
+        </StackPanel>
     </StackPanel>
 </UserControl>
