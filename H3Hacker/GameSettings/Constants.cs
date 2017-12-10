@@ -9,6 +9,8 @@ namespace H3Hacker.GameSettings
 
         internal static IntPtr CommanderBaseAddress = new IntPtr(0x028621B4);
 
+        internal const string Encoding = "GBK"; 
+
         internal static List<string> PlayerTypeNames = new List<string>
         {
             "电脑",

@@ -1,8 +1,7 @@
-﻿using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System;
+using System.Collections.ObjectModel;
 using H3Hacker.Model;
 using H3Hacker.Utility;
-using System;
 
 namespace H3Hacker.ViewModel
 {
@@ -33,7 +32,7 @@ namespace H3Hacker.ViewModel
 
         public override string ToString()
         {
-            return this.hero.Name.ToStringGBK();
+            return this.hero.Name.ToStringByEncoding();
         }
 
         public short Mana

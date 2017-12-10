@@ -87,7 +87,7 @@ namespace H3Hacker.GameMemory
             {
                 foreach(var name in Constants.PlayerTypeNames)
                 {
-                    var nameBytes = Encoding.GetEncoding("GBK").GetBytes(name);
+                    var nameBytes = Encoding.GetEncoding(Constants.Encoding).GetBytes(name);
                     var address = this.memory.FindByAoB(nameBytes, memoryRegion);
                     if(address == IntPtr.Zero)
                     {
