@@ -4,27 +4,25 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:H3Hacker.Utility"
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             mc:Ignorable="d" >
     <UserControl.Resources>
         <local:HeroViewModelToVisibilityConverter x:Key="HeroViewModelToVisibilityConverter" />
     </UserControl.Resources>
     <StackPanel Orientation="Vertical">
         <ListBox ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                                   DataContext="{Binding SelectedHero}"
-                                   Height="133"
-                                   HorizontalContentAlignment="Center"
-                                   ItemsSource="{Binding Stats}"
-                                   BorderThickness="0">
+                       DataContext="{Binding SelectedHero}"
+                       Height="133"
+                       HorizontalContentAlignment="Center"
+                       ItemsSource="{Binding Stats}"
+                       BorderThickness="0">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Horizontal" Width="150">
+                    <StackPanel Orientation="Horizontal">
                         <TextBlock Text="{Binding Name}" 
-                                               FontSize="20" 
-                                               Width="80"
-                                               HorizontalAlignment="Left"/>
-                        <TextBox 
-                                        FontSize="20"
+                                          FontSize="20" 
+                                          Width="80"
+                                          HorizontalAlignment="Left"/>
+                        <TextBox FontSize="20"
                                         Width="70"
                                         Text="{Binding StatPoint, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                         HorizontalAlignment="Right"/>

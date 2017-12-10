@@ -75,6 +75,10 @@ namespace H3Hacker.ViewModel
         {
             this.OnPropertyChanged(nameof(Heroes));
             this.OnPropertyChanged(nameof(SelectedHero));
+            foreach(var hero in this.Heroes)
+            {
+                hero.RefreshDisplay();
+            }
         }
     }
 }

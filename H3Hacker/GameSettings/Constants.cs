@@ -41,7 +41,7 @@ namespace H3Hacker.GameSettings
             "斯拉瓦的力量之戒"
         };
 
-        internal static List<string> CreatureNames = new List<string>
+        public static List<string> CreatureNames = new List<string>
         {
             "枪兵",
             "戟兵",
@@ -165,13 +165,13 @@ namespace H3Hacker.GameSettings
             "仙子",
             "精神元素",
             "魔法元素",
-            "N/A",
+            "",
             "冰元素",
-            "N/A",
+            "",
             "岩浆元素",
-            "N/A",
+            "",
             "雷元素",
-            "N/A",
+            "",
             "能量元素",
             "火鸟",
             "凤凰",
@@ -188,11 +188,11 @@ namespace H3Hacker.GameSettings
             "游牧民",
             "盗贼",
             "桥梁怪",
-            "N/A",
-            "N/A",
-            "N/A",
-            "N/A",
-            "N/A",
+            "",
+            "",
+            "",
+            "",
+            "",
             "至高天使长",
             "钻石龙",
             "雷神",

@@ -30,5 +30,14 @@ namespace H3Hacker.Model
         {
             return BitConverter.ToUInt32(this.Type, 0) != NullCreatureType;
         }
+
+        internal void Remove()
+        {
+            for(var i = 0; i < 4; i++)
+            {
+                this.Amount[i] = 0x00;
+                this.Type[i] = 0xFF;
+            }
+        }
     }
 }

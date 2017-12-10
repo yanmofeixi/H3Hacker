@@ -1,28 +1,28 @@
-﻿<UserControl x:Class="H3Hacker.Controls.BasicSkills"
+﻿<UserControl x:Class="H3Hacker.Controls.Creatures"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:gamesetting="clr-namespace:H3Hacker.GameSettings"
              mc:Ignorable="d" >
-    <StackPanel DataContext="{Binding SelectedHero}">
+    <StackPanel Orientation="Vertical" DataContext="{Binding SelectedHero}">
         <ListBox ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                                   Height="270"
-                                   HorizontalContentAlignment="Center"
-                                   ItemsSource="{Binding BasicSkills}"
-                                   BorderThickness="0">
+                       Height="270"
+                       HorizontalContentAlignment="Center"
+                       ItemsSource="{Binding Creatures}"
+                       BorderThickness="0">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding Name}" 
-                                               FontSize="20" 
-                                               Width="80"
-                                               HorizontalAlignment="Left"/>
-                        <ComboBox 
-                                        FontSize="20"
+                        <ComboBox SelectedValue="{Binding Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                             ItemsSource="{x:Static gamesetting:Constants.CreatureNames}"
+                                             FontSize="20" 
+                                             Width="140"
+                                             HorizontalAlignment="Left"/>
+                        <TextBox FontSize="20"
+                                        Margin="5,0,0,0"
                                         Width="70"
-                                        ItemsSource="{x:Static gamesetting:Constants.BasicSkillLevelNames}"
-                                        SelectedValue="{Binding Level, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        Text="{Binding Amount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                         HorizontalAlignment="Right"/>
                     </StackPanel>
                 </DataTemplate>

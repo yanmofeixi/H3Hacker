@@ -59,6 +59,9 @@
     <Compile Include="Controls\BasicSkills.xaml.cs">
       <DependentUpon>BasicSkills.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Creatures.xaml.cs">
+      <DependentUpon>Creatures.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Stats.xaml.cs">
       <DependentUpon>Stats.xaml</DependentUpon>
     </Compile>
@@ -74,11 +77,16 @@
     <Compile Include="Utility\Converters.cs" />
     <Compile Include="Utility\Utility.cs" />
     <Compile Include="ViewModel\BasicSkillViewModel.cs" />
+    <Compile Include="ViewModel\CreatureViewModel.cs" />
     <Compile Include="ViewModel\HeroViewModel.cs" />
     <Compile Include="ViewModel\MainPageViewModel.cs" />
     <Compile Include="ViewModel\StatViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Page Include="Controls\BasicSkills.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Creatures.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

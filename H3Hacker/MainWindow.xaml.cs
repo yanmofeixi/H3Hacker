@@ -45,6 +45,7 @@ namespace H3Hacker
                 this.mainPageViewModel.PlayerIndex,
                 basicResourceAmount,
                 mithrilAmount);
+            this.mainPageViewModel.RefreshDisplay();
         }
 
         private void Commander_OnClick(object sender, RoutedEventArgs e)
@@ -64,6 +65,7 @@ namespace H3Hacker
                 this.mainPageViewModel.SelectedHero.PlayerIndex,
                 itemsToAdd,
                 basicSkillLevel);
+            this.mainPageViewModel.RefreshDisplay();
         }
 
         private void Creature_OnClick(object sender, RoutedEventArgs e)
@@ -75,6 +77,7 @@ namespace H3Hacker
                 this.mainPageViewModel.SelectedHero.PlayerIndex,
                 creatureToAdd,
                 amountToAdd);
+            this.mainPageViewModel.RefreshDisplay();
         }
 
         private void PlayerIndexChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)

@@ -101,5 +101,25 @@ namespace H3Hacker.ViewModel
                 return skills;
             }
         }
+
+        public ObservableCollection<CreatureViewModel> Creatures
+        {
+            get
+            {
+                var creatures = new ObservableCollection<CreatureViewModel>();
+                for (var i = 0; i < Hero.CreatureAmount; i++)
+                {
+                    creatures.Add(new CreatureViewModel(this.hero.Creatures[i]));
+                }
+                return creatures;
+            }
+        }
+
+        internal void RefreshDisplay()
+        {
+            this.OnPropertyChanged(nameof(Stats));
+            this.OnPropertyChanged(nameof(BasicSkills));
+            this.OnPropertyChanged(nameof(Creatures));
+        }
     }
 }
