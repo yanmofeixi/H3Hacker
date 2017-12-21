@@ -1,5 +1,4 @@
-﻿using H3Hacker.Utility;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System;
 using ProcessMemoryScanner;
 
@@ -22,33 +21,29 @@ namespace H3Hacker.Model
 
         internal List<Hero> Heroes = new List<Hero>();
 
-        internal byte[] BasicResources = new byte[4 * BasicResourceTypeAmount];
+        internal int[] BasicResources = new int[BasicResourceTypeAmount];
 
-        internal byte[] Mithril = new byte[4];
+        internal int Mithril;
 
-        internal byte[] GetBasicResource(int resourceIndex)
+        internal override void Load(MemoryScanner memory)
         {
-            return this.BasicResources.SubBytes(4 * resourceIndex, 4);
+            for(var i = 0; i < BasicResourceTypeAmount; i++)
+            {
+                this.BasicResources[i] = memory.ReadMemory<int>(IntPtr.Add(this.BaseAddress, 4 * i));
+            }
+            this.Mithril = memory.ReadMemory<int>(this.MithrilAddress);
         }
 
-        internal void SetBasicResource(int resourceIndex, int amount)
+        internal override void Save(MemoryScanner memory)
         {
-            amount.CopyToByteArray(this.BasicResources, 4 * resourceIndex);
-        }
-
-        internal override void Load(Func<IntPtr, uint, byte[]> readMemory)
-        {
-            this.BasicResources = readMemory(this.BaseAddress, BasicResourceTypeAmount * 4);
-            this.Mithril = readMemory(this.MithrilAddress, 4);
-        }
-
-        internal override void Save(Action<IntPtr, byte[]> writeMemory)
-        {
-            writeMemory(this.BaseAddress, this.BasicResources);
-            writeMemory(this.MithrilAddress, this.Mithril);
+            for (var i = 0; i < BasicResourceTypeAmount; i++)
+            {
+                memory.WriteMemory(IntPtr.Add(this.BaseAddress, 4 * i), this.BasicResources[i]);
+            }
+            memory.WriteMemory(this.MithrilAddress, this.Mithril);
             for (var i = 0; i < this.Heroes.Count; i++)
             {
-                this.Heroes[i].Save(writeMemory);
+                this.Heroes[i].Save(memory);
             }
         }
     }

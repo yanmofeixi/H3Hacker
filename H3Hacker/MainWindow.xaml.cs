@@ -1,11 +1,12 @@
-﻿using System.Windows;
+﻿using System;
+using System.Collections.Generic;
+using System.Windows;
 using H3Hacker.GameMemory;
 using H3Hacker.ViewModel;
-using System.Collections.Generic;
 
 namespace H3Hacker
 {
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, IDisposable
     {
         private MainPageViewModel mainPageViewModel = new MainPageViewModel();
 
@@ -88,6 +89,12 @@ namespace H3Hacker
         private void Save_OnClick(object sender, RoutedEventArgs e)
         {
             this.gameMemoryManager.SaveGame();
+        }
+
+        public void Dispose()
+        {
+            this.gameMemoryManager.Dispose();
+            GC.SuppressFinalize(this);
         }
     }
 }

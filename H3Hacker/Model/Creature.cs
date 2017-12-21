@@ -1,43 +1,41 @@
 ﻿using System;
+using ProcessMemoryScanner;
 
 namespace H3Hacker.Model
 {
     internal class Creature : MemoryObject
     {
-        private const uint NullCreatureType = 0xFFFFFFFF;
+        private const int NullCreatureType = -1;
 
         internal Creature(IntPtr baseAddress) : base(baseAddress)
         {
         }
 
-        internal byte[] Amount = new byte[4];
+        internal int Amount = 0;
 
-        internal byte[] Type = new byte[4];
+        internal int Type = NullCreatureType;
 
-        internal override void Load(Func<IntPtr, uint, byte[]> readMemory)
+        internal override void Load(MemoryScanner memory)
         {
-            this.Type = readMemory(this.BaseAddress, 4);
-            this.Amount = readMemory(IntPtr.Add(this.BaseAddress, 4 * Hero.CreatureAmount), 4);
+            this.Type = memory.ReadMemory<int>(this.BaseAddress);
+            this.Amount = memory.ReadMemory<int>(IntPtr.Add(this.BaseAddress, 4 * Hero.CreatureAmount));
         }
 
-        internal override void Save(Action<IntPtr, byte[]> writeMemory)
+        internal override void Save(MemoryScanner memory)
         {
-            writeMemory(this.BaseAddress, this.Type);
-            writeMemory(IntPtr.Add(this.BaseAddress, 4 * Hero.CreatureAmount), this.Amount);
+            memory.WriteMemory(this.BaseAddress, this.Type);
+            memory.WriteMemory(IntPtr.Add(this.BaseAddress, 4 * Hero.CreatureAmount), this.Amount);
         }
 
         internal bool Exist()
         {
-            return BitConverter.ToUInt32(this.Type, 0) != NullCreatureType;
+            return this.Type != NullCreatureType;
         }
 
         internal void Remove()
         {
-            for(var i = 0; i < 4; i++)
-            {
-                this.Amount[i] = 0x00;
-                this.Type[i] = 0xFF;
-            }
+            this.Amount = 0;
+            this.Type = NullCreatureType;
         }
     }
 }

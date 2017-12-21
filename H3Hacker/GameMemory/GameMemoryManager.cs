@@ -8,7 +8,7 @@ using ProcessMemoryScanner;
 
 namespace H3Hacker.GameMemory
 {
-    internal class GameMemoryManager
+    internal class GameMemoryManager : IDisposable
     {
         private Game game;
 
@@ -22,7 +22,7 @@ namespace H3Hacker.GameMemory
             {
                 return false;
             }
-            this.game.Load(this.memory.ReadMemory);
+            this.game.Load(this.memory);
             return true;
         }
 
@@ -31,14 +31,14 @@ namespace H3Hacker.GameMemory
             var commander = this.game.Players[playerIndex].Heroes.SingleOrDefault(h => h.HeroIndex == heroIndex).Commander;
             for (var i = 0; i < Commander.BasicSkillAmount; i++)
             {
-                commander.SetSkill(i, basicSkillLevel);
+                commander.BasicSkills[i] = basicSkillLevel;
             }
             for (var i = 0; i < itemsToAdd.Count; i++)
             {
                 var itemIndex = Constants.CommanderItems.IndexOf(itemsToAdd[i]);
                 commander.AddItem(itemIndex, 0);
             }
-            commander.Save(this.memory.WriteMemory);
+            commander.Save(this.memory);
         }
 
         internal void AddCreature(int heroIndex, int playerIndex, string creatureNameToAdd, int amountToAdd)
@@ -48,9 +48,9 @@ namespace H3Hacker.GameMemory
             {
                 if (!hero.Creatures[i].Exist())
                 {
-                    hero.Creatures[i].Type = BitConverter.GetBytes(Constants.CreatureNames.IndexOf(creatureNameToAdd));
-                    hero.Creatures[i].Amount = BitConverter.GetBytes(amountToAdd);
-                    hero.Creatures[i].Save(this.memory.WriteMemory);
+                    hero.Creatures[i].Type = Constants.CreatureNames.IndexOf(creatureNameToAdd);
+                    hero.Creatures[i].Amount = amountToAdd;
+                    hero.Creatures[i].Save(this.memory);
                     break;
                 }
             }
@@ -60,10 +60,10 @@ namespace H3Hacker.GameMemory
         {
             for(var i = 0; i < Player.BasicResourceTypeAmount; i++)
             {
-                this.game.Players[playerIndex].SetBasicResource(i, basicResourceAmount);
+                this.game.Players[playerIndex].BasicResources[i] = basicResourceAmount;
             }
-            this.game.Players[playerIndex].Mithril = BitConverter.GetBytes(mithrilAmount);
-            this.game.Players[playerIndex].Save(this.memory.WriteMemory);
+            this.game.Players[playerIndex].Mithril = mithrilAmount;
+            this.game.Players[playerIndex].Save(this.memory);
         }
 
         internal List<Hero> GetHeroes(int playerIndex)
@@ -73,7 +73,7 @@ namespace H3Hacker.GameMemory
 
         internal void SaveGame()
         {
-            this.game.Save(this.memory.WriteMemory);
+            this.game.Save(this.memory);
         }
 
         private IntPtr FindBaseAddress()
@@ -110,6 +110,11 @@ namespace H3Hacker.GameMemory
                 }
             }
             return IntPtr.Zero;
+        }
+
+        public void Dispose()
+        {
+            this.memory.Dispose();
         }
     }
 }

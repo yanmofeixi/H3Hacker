@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 using H3Hacker.GameSettings;
 
 namespace H3Hacker.Utility
@@ -17,24 +16,6 @@ namespace H3Hacker.Utility
                 }
             }
             return rawString;
-        }
-
-        internal static void CopyToByteArray(this short shortToCopy, byte[] byteArray, int startIndex)
-        {
-            var bytes = BitConverter.GetBytes(shortToCopy);
-            for (var i = 0; i < 2; i++)
-            {
-                byteArray[startIndex + i] = bytes[i];
-            }
-        }
-
-        internal static void CopyToByteArray(this int intToCopy, byte[] byteArray, int startIndex)
-        {
-            var bytes = BitConverter.GetBytes(intToCopy);
-            for (var i = 0; i < 4; i++)
-            {
-                byteArray[startIndex + i] = bytes[i];
-            }
         }
     }
 }

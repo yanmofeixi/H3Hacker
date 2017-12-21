@@ -1,6 +1,6 @@
-﻿using H3Hacker.Model;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using H3Hacker.Model;
 
 namespace H3Hacker.ViewModel
 {

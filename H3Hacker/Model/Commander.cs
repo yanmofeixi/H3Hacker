@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using H3Hacker.Utility;
 using ProcessMemoryScanner;
 
 namespace H3Hacker.Model
@@ -18,15 +17,10 @@ namespace H3Hacker.Model
         {
         }
 
-        internal byte[] BasicSkills;
+        internal int[] BasicSkills = new int[BasicSkillAmount];
 
         internal List<CommanderItem> Items = new List<CommanderItem>();
-
-        internal void SetSkill(int index, int level)
-        {
-            level.CopyToByteArray(this.BasicSkills, 4 * index);
-        }
-
+        
         internal void AddItem(int itemIndex, short battleTimes)
         {
             //already have this item
@@ -38,30 +32,36 @@ namespace H3Hacker.Model
             if(item != null)
             {
                 item.Type = CommanderItem.ToCommandItemType(itemIndex);
-                item.BattleTimes = BitConverter.GetBytes(battleTimes);
+                item.BattleTimes = battleTimes;
             }
         }
 
-        internal override void Load(Func<IntPtr, uint, byte[]> readMemory)
+        internal override void Load(MemoryScanner memory)
         {
-            this.BasicSkills = readMemory(IntPtr.Add(this.BaseAddress, - 0xBC), 4 * BasicSkillAmount);
+            for (var i = 0; i < BasicSkillAmount; i++)
+            {
+                this.BasicSkills[i] = memory.ReadMemory<int>(IntPtr.Add(this.BaseAddress, -0xBC + 4 * i));
+            }
             for (var i = 0; i < ItemAmount; i++)
             {
                 var itemToAdd = new CommanderItem(IntPtr.Add(this.BaseAddress, - 0xA0 + 4 * 4 * i));
-                itemToAdd.Load(readMemory);
+                itemToAdd.Load(memory);
                 this.Items.Add(itemToAdd);
             }
         }
 
-        internal override void Save(Action<IntPtr, byte[]> writeMemory)
+        internal override void Save(MemoryScanner memory)
         {
             //bug in wog, skill 4 appeared twice
-            var additionalSkill = this.BasicSkills.SubBytes(16, 4);
-            writeMemory(IntPtr.Add(this.BaseAddress, - 0xBC), this.BasicSkills);
-            writeMemory(IntPtr.Add(this.BaseAddress, - 0xBC + 4 * BasicSkillAmount), additionalSkill);
+            var additionalSkill = this.BasicSkills[4];
+            for (var i = 0; i < BasicSkillAmount; i++)
+            {
+                memory.WriteMemory(IntPtr.Add(this.BaseAddress, -0xBC + 4 * i), this.BasicSkills[i]);
+            }
+            memory.WriteMemory(IntPtr.Add(this.BaseAddress, - 0xBC + 4 * BasicSkillAmount), additionalSkill);
             for (var i = 0; i < ItemAmount; i++)
             {
-                this.Items[i].Save(writeMemory);
+                this.Items[i].Save(memory);
             }
         }
     }

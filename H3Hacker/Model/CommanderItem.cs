@@ -1,5 +1,6 @@
 ﻿using System;
 using H3Hacker.GameSettings;
+using ProcessMemoryScanner;
 
 namespace H3Hacker.Model
 {
@@ -11,32 +12,31 @@ namespace H3Hacker.Model
         {
         }
 
-        internal byte[] Type;
+        internal short Type;
 
-        internal byte[] BattleTimes;
+        internal short BattleTimes;
 
-        internal override void Load(Func<IntPtr, uint, byte[]> readMemory)
+        internal override void Load(MemoryScanner memory)
         {
-            this.Type = readMemory(this.BaseAddress, 2);
-            this.BattleTimes = readMemory(IntPtr.Add(this.BaseAddress, 2), 2);
+            this.Type = memory.ReadMemory<short>(this.BaseAddress);
+            this.BattleTimes = memory.ReadMemory<short>(IntPtr.Add(this.BaseAddress, 2));
         }
 
-        internal override void Save(Action<IntPtr, byte[]> writeMemory)
+        internal override void Save(MemoryScanner memory)
         {
-            writeMemory(this.BaseAddress, this.Type);
-            writeMemory(IntPtr.Add(this.BaseAddress, 2), this.BattleTimes);
+            memory.WriteMemory(this.BaseAddress, this.Type);
+            memory.WriteMemory(IntPtr.Add(this.BaseAddress, 2), this.BattleTimes);
         }
 
         internal bool Exist()
         {
-            var index = BitConverter.ToInt16(this.Type, 0) - itemOffset;
+            var index = this.Type - itemOffset;
             return index >= 0 && index < Constants.CommanderItems.Count;
         }
 
-        internal static byte[] ToCommandItemType(int index)
+        internal static short ToCommandItemType(int index)
         {
-            var type = itemOffset + (short)index;
-            return BitConverter.GetBytes(type);
+            return (short)(itemOffset + (short)index);
         }
     }
 }

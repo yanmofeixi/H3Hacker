@@ -1,4 +1,5 @@
 ﻿using System;
+using ProcessMemoryScanner;
 
 namespace H3Hacker.Model
 {
@@ -11,8 +12,8 @@ namespace H3Hacker.Model
 
         protected IntPtr BaseAddress;
 
-        internal abstract void Load(Func<IntPtr, uint, byte[]> readMemory);
+        internal abstract void Load(MemoryScanner memory);
 
-        internal abstract void Save(Action<IntPtr, byte[]> writeMemory);
+        internal abstract void Save(MemoryScanner memory);
     }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using H3Hacker.Model;
 using H3Hacker.Utility;
 
@@ -39,7 +38,7 @@ namespace H3Hacker.ViewModel
         {
             get
             {
-                return BitConverter.ToInt16(this.hero.Mana, 0);
+                return this.hero.Mana;
             }
             set
             {
@@ -51,7 +50,7 @@ namespace H3Hacker.ViewModel
                 {
                     value = short.MaxValue;
                 }
-                value.CopyToByteArray(this.hero.Mana, 0);
+                this.hero.Mana = value;
             }
         }
 
@@ -59,7 +58,7 @@ namespace H3Hacker.ViewModel
         {
             get
             {
-                return BitConverter.ToInt32(this.hero.MovementPoint, 0);
+                return this.hero.MovementPoint;
             }
             set
             {
@@ -71,7 +70,7 @@ namespace H3Hacker.ViewModel
                 {
                     value = int.MaxValue;
                 }
-                value.CopyToByteArray(this.hero.MovementPoint, 0);
+                this.hero.MovementPoint = value;
             }
         }
 

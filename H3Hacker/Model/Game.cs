@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using H3Hacker.GameSettings;
+using ProcessMemoryScanner;
 
 namespace H3Hacker.Model
 {
@@ -26,7 +27,7 @@ namespace H3Hacker.Model
 
         internal List<Player> Players;
 
-        internal override void Load(Func<IntPtr, uint, byte[]> readMemory)
+        internal override void Load(MemoryScanner memory)
         {
             this.Players = new List<Player>();
             for (var i = 0; i < PlayerAmount; i++)
@@ -34,29 +35,29 @@ namespace H3Hacker.Model
                 var playerToAdd = new Player(
                     IntPtr.Add(this.BaseAddress, - PlayerMemoryOffset + Player.MemorySize * i), 
                     Constants.MithrilAddress + 4 * i);
-                playerToAdd.Load(readMemory);
+                playerToAdd.Load(memory);
                 this.Players.Add(playerToAdd);
             }
 
             var currentHeroAddress = this.BaseAddress;
             for (var i = 0; i < HeroTotalAmount; i++)
             {
-                var playerIndex = readMemory(IntPtr.Add(currentHeroAddress, - 1), 1)[0];
+                var playerIndex = memory.ReadMemory<byte>(IntPtr.Add(currentHeroAddress, - 1));
                 if (playerIndex != 0xFF) //hero exists
                 {
                     var heroToAdd = new Hero(currentHeroAddress, playerIndex, i);
-                    heroToAdd.Load(readMemory);
+                    heroToAdd.Load(memory);
                     this.Players[heroToAdd.PlayerIndex].Heroes.Add(heroToAdd);
                 }
                 currentHeroAddress += Hero.MemorySize;
             }
         }
 
-        internal override void Save(Action<IntPtr, byte[]> writeMemory)
+        internal override void Save(MemoryScanner memory)
         {
             for (var i = 0; i < PlayerAmount; i++)
             {
-                this.Players[i].Save(writeMemory);
+                this.Players[i].Save(memory);
             }
         }
     }
