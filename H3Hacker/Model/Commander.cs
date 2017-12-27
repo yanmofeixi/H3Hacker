@@ -40,11 +40,11 @@ namespace H3Hacker.Model
         {
             for (var i = 0; i < BasicSkillAmount; i++)
             {
-                this.BasicSkills[i] = memory.ReadMemory<int>(IntPtr.Add(this.BaseAddress, -0xBC + 4 * i));
+                this.BasicSkills[i] = memory.ReadMemory<int>(this.BaseAddress -0xBC + 4 * i);
             }
             for (var i = 0; i < ItemAmount; i++)
             {
-                var itemToAdd = new CommanderItem(IntPtr.Add(this.BaseAddress, - 0xA0 + 4 * 4 * i));
+                var itemToAdd = new CommanderItem(this.BaseAddress - 0xA0 + 4 * 4 * i);
                 itemToAdd.Load(memory);
                 this.Items.Add(itemToAdd);
             }
@@ -56,9 +56,9 @@ namespace H3Hacker.Model
             var additionalSkill = this.BasicSkills[4];
             for (var i = 0; i < BasicSkillAmount; i++)
             {
-                memory.WriteMemory(IntPtr.Add(this.BaseAddress, -0xBC + 4 * i), this.BasicSkills[i]);
+                memory.WriteMemory(this.BaseAddress - 0xBC + 4 * i, this.BasicSkills[i]);
             }
-            memory.WriteMemory(IntPtr.Add(this.BaseAddress, - 0xBC + 4 * BasicSkillAmount), additionalSkill);
+            memory.WriteMemory(this.BaseAddress - 0xBC + 4 * BasicSkillAmount, additionalSkill);
             for (var i = 0; i < ItemAmount; i++)
             {
                 this.Items[i].Save(memory);

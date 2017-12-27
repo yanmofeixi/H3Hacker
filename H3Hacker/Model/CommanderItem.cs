@@ -19,13 +19,13 @@ namespace H3Hacker.Model
         internal override void Load(MemoryScanner memory)
         {
             this.Type = memory.ReadMemory<short>(this.BaseAddress);
-            this.BattleTimes = memory.ReadMemory<short>(IntPtr.Add(this.BaseAddress, 2));
+            this.BattleTimes = memory.ReadMemory<short>(this.BaseAddress + 2);
         }
 
         internal override void Save(MemoryScanner memory)
         {
             memory.WriteMemory(this.BaseAddress, this.Type);
-            memory.WriteMemory(IntPtr.Add(this.BaseAddress, 2), this.BattleTimes);
+            memory.WriteMemory(this.BaseAddress + 2, this.BattleTimes);
         }
 
         internal bool Exist()

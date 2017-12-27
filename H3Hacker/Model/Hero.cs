@@ -51,27 +51,27 @@ namespace H3Hacker.Model
 
         internal override void Load(MemoryScanner memory)
         {
-            this.BasicSkills = memory.ReadMemory(IntPtr.Add(this.BaseAddress, BasicSkillOffset), (uint) BasicSkillAmount);
+            this.BasicSkills = memory.ReadMemory(this.BaseAddress + BasicSkillOffset, (uint) BasicSkillAmount);
             this.Name = memory.ReadMemory(this.BaseAddress, 12);
-            this.Stats = memory.ReadMemory(IntPtr.Add(this.BaseAddress, StatsOffset), (uint) StatsAmount);
-            this.Mana = memory.ReadMemory<short>(IntPtr.Add(this.BaseAddress, ManaOffset));
-            this.MovementPoint = memory.ReadMemory<int>(IntPtr.Add(this.BaseAddress, MovementPointOffset));
+            this.Stats = memory.ReadMemory(this.BaseAddress + StatsOffset, (uint) StatsAmount);
+            this.Mana = memory.ReadMemory<short>(this.BaseAddress + ManaOffset);
+            this.MovementPoint = memory.ReadMemory<int>(this.BaseAddress + MovementPointOffset);
             for (var i = 0; i < CreatureAmount; i++)
             {
-                var creature = new Creature(IntPtr.Add(this.BaseAddress, CreatureOffset + 4 * i));
+                var creature = new Creature(this.BaseAddress + CreatureOffset + 4 * i);
                 creature.Load(memory);
                 this.Creatures.Add(creature);
             }
-            this.Commander = new Commander(IntPtr.Add(Constants.CommanderBaseAddress, this.HeroIndex * Commander.MemorySize));
+            this.Commander = new Commander(Constants.CommanderBaseAddress + this.HeroIndex * Commander.MemorySize);
             this.Commander.Load(memory);
         }
 
         internal override void Save(MemoryScanner memory)
         {
-            memory.WriteMemory(IntPtr.Add(this.BaseAddress, BasicSkillOffset), this.BasicSkills);
-            memory.WriteMemory(IntPtr.Add(this.BaseAddress, StatsOffset), this.Stats);
-            memory.WriteMemory(IntPtr.Add(this.BaseAddress, ManaOffset), this.Mana);
-            memory.WriteMemory(IntPtr.Add(this.BaseAddress, MovementPointOffset), this.MovementPoint);
+            memory.WriteMemory(this.BaseAddress + BasicSkillOffset, this.BasicSkills);
+            memory.WriteMemory(this.BaseAddress + StatsOffset, this.Stats);
+            memory.WriteMemory(this.BaseAddress + ManaOffset, this.Mana);
+            memory.WriteMemory(this.BaseAddress + MovementPointOffset, this.MovementPoint);
             for (var i = 0; i < CreatureAmount; i++)
             {
                 this.Creatures[i].Save(memory);

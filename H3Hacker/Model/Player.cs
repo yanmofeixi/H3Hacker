@@ -29,7 +29,7 @@ namespace H3Hacker.Model
         {
             for(var i = 0; i < BasicResourceTypeAmount; i++)
             {
-                this.BasicResources[i] = memory.ReadMemory<int>(IntPtr.Add(this.BaseAddress, 4 * i));
+                this.BasicResources[i] = memory.ReadMemory<int>(this.BaseAddress + 4 * i);
             }
             this.Mithril = memory.ReadMemory<int>(this.MithrilAddress);
         }
@@ -38,7 +38,7 @@ namespace H3Hacker.Model
         {
             for (var i = 0; i < BasicResourceTypeAmount; i++)
             {
-                memory.WriteMemory(IntPtr.Add(this.BaseAddress, 4 * i), this.BasicResources[i]);
+                memory.WriteMemory(this.BaseAddress + 4 * i, this.BasicResources[i]);
             }
             memory.WriteMemory(this.MithrilAddress, this.Mithril);
             for (var i = 0; i < this.Heroes.Count; i++)
