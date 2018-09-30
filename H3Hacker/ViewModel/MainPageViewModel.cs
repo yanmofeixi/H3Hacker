@@ -22,7 +22,7 @@ namespace H3Hacker.ViewModel
             set
             {
                 this.playerIndex = value;
-                this.OnPropertyChanged(nameof(PlayerIndex));
+                this.OnPropertyChanged(nameof(this.PlayerIndex));
             }
         }
 
@@ -37,7 +37,7 @@ namespace H3Hacker.ViewModel
             set
             {
                 this.selectedHeroViewModel = value;
-                this.OnPropertyChanged(nameof(SelectedHero));
+                this.OnPropertyChanged(nameof(this.SelectedHero));
             }
         }
 
@@ -51,7 +51,7 @@ namespace H3Hacker.ViewModel
             set
             {
                 this.gameLoaded = value;
-                this.OnPropertyChanged(nameof(GameLoaded));
+                this.OnPropertyChanged(nameof(this.GameLoaded));
             }
         }
 
@@ -73,8 +73,8 @@ namespace H3Hacker.ViewModel
 
         internal void RefreshDisplay()
         {
-            this.OnPropertyChanged(nameof(Heroes));
-            this.OnPropertyChanged(nameof(SelectedHero));
+            this.OnPropertyChanged(nameof(this.Heroes));
+            this.OnPropertyChanged(nameof(this.SelectedHero));
             foreach(var hero in this.Heroes)
             {
                 hero.RefreshDisplay();

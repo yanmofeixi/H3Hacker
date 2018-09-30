@@ -30,13 +30,13 @@ namespace H3Hacker.ViewModel
                 if (string.IsNullOrWhiteSpace(value))
                 {
                     this.creature.Remove();
-                    this.OnPropertyChanged(nameof(Amount));
+                    this.OnPropertyChanged(nameof(this.Amount));
                 }
                 else
                 {
                     this.creature.Type = Constants.CreatureNames.IndexOf(value);
                 }
-                this.OnPropertyChanged(nameof(Type));
+                this.OnPropertyChanged(nameof(this.Type));
             }
         }
 
@@ -53,7 +53,7 @@ namespace H3Hacker.ViewModel
                     value = 0;
                 }
                 this.creature.Amount = value;
-                this.OnPropertyChanged(nameof(Amount));
+                this.OnPropertyChanged(nameof(this.Amount));
             }
         }
     }

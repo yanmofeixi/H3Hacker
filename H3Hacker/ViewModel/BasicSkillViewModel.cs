@@ -31,7 +31,7 @@ namespace H3Hacker.ViewModel
             set
             {
                 this.basicSkills[this.skillIndex] = (byte)Constants.BasicSkillLevelNames.IndexOf(value);
-                this.OnPropertyChanged(nameof(Level));
+                this.OnPropertyChanged(nameof(this.Level));
             }
         }
     }

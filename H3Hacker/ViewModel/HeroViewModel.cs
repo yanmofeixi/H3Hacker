@@ -115,9 +115,9 @@ namespace H3Hacker.ViewModel
 
         internal void RefreshDisplay()
         {
-            this.OnPropertyChanged(nameof(Stats));
-            this.OnPropertyChanged(nameof(BasicSkills));
-            this.OnPropertyChanged(nameof(Creatures));
+            this.OnPropertyChanged(nameof(this.Stats));
+            this.OnPropertyChanged(nameof(this.BasicSkills));
+            this.OnPropertyChanged(nameof(this.Creatures));
         }
     }
 }

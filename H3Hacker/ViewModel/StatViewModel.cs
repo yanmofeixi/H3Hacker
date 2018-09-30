@@ -39,7 +39,7 @@ namespace H3Hacker.ViewModel
                     value = 0;
                 }
                 this.stats[this.statIndex] = value;
-                this.OnPropertyChanged(nameof(StatPoint));
+                this.OnPropertyChanged(nameof(this.StatPoint));
             }
         }
     }
