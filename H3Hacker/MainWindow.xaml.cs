@@ -29,7 +29,7 @@ namespace H3Hacker
             {
                 this.mainPageViewModel.ClearHeroes();
                 this.mainPageViewModel.GameLoaded = false;
-                MessageBox.Show("读取失败");
+                MessageBox.Show("读取失败，请确保h3era.exe正在运行");
             }
         }
 

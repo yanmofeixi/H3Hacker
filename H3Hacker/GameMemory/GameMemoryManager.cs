@@ -16,8 +16,15 @@ namespace H3Hacker.GameMemory
 
         internal bool OpenProcess()
         {
-            this.memory = new MemoryScanner(p => p.ProcessName == "h3era");
-            this.game = new Game(this.FindBaseAddress());
+            try
+            {
+                this.memory = new MemoryScanner(p => p.ProcessName == "h3era");
+                this.game = new Game(this.FindBaseAddress());
+            }
+            catch(InvalidOperationException)
+            {
+                return false;
+            }
             if (!this.game.IsAddressValid)
             {
                 return false;
