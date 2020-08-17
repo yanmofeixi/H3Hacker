@@ -90,6 +90,8 @@ namespace H3Hacker.GameMemory
             m.Protect == 0x4 &&
             m.RegionSize.ToInt32() == 0xFF000);
 
+            const int MinNameBytesLength = 4;
+
             foreach(var memoryRegion in memoryRegions)
             {
                 foreach(var name in Constants.PlayerTypeNames)
@@ -100,11 +102,11 @@ namespace H3Hacker.GameMemory
                     {
                         continue;
                     }
-
-                    while(true)
+                    while (true)
                     {
-                        var bytesRead = this.memory.ReadMemory(address + Player.MemorySize, (uint) nameBytes.Length);
-                        if(!MemoryUtility.BytesMatch(bytesRead, nameBytes))
+                        var nameRead = Encoding.GetEncoding(Constants.Encoding).GetString(
+                            this.memory.ReadMemory(address + Player.MemorySize, MinNameBytesLength));
+                        if (Constants.PlayerTypeNames.All(n => !n.Contains(nameRead)))
                         {
                             return address + Player.NameOffset;
                         }
