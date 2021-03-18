@@ -14,7 +14,9 @@ namespace H3Hacker.GameSettings
         internal static List<string> PlayerTypeNames = new List<string>
         {
             "电脑",
-            "Player"
+            "Player",
+            "红色",
+            "绿色"
         };
 
         public static List<string> Colors = new List<string>

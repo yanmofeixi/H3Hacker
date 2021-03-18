@@ -18,7 +18,7 @@ namespace H3Hacker.GameMemory
         {
             try
             {
-                this.memory = new MemoryScanner(p => p.ProcessName == "h3era");
+                this.memory = new MemoryScanner(p => p.ProcessName.Contains("h3era"));
                 this.game = new Game(this.FindBaseAddress());
             }
             catch(InvalidOperationException)
@@ -90,9 +90,7 @@ namespace H3Hacker.GameMemory
             m.Protect == 0x4 &&
             m.RegionSize.ToInt32() == 0xFF000);
 
-            const int MinNameBytesLength = 4;
-
-            foreach(var memoryRegion in memoryRegions)
+            foreach (var memoryRegion in memoryRegions)
             {
                 foreach(var name in Constants.PlayerTypeNames)
                 {
@@ -104,9 +102,14 @@ namespace H3Hacker.GameMemory
                     }
                     while (true)
                     {
-                        var nameRead = Encoding.GetEncoding(Constants.Encoding).GetString(
-                            this.memory.ReadMemory(address + Player.MemorySize, MinNameBytesLength));
-                        if (Constants.PlayerTypeNames.All(n => !n.Contains(nameRead)))
+                        var nameRead = this.ReadPlayerName(address);
+                        var prevName = this.ReadPlayerName(address - Player.MemorySize);
+                        var nextName = this.ReadPlayerName(address + Player.MemorySize);
+                        if (!MatchName(prevName) && !MatchName(nextName))
+                        {
+                            break;
+                        }
+                        if (Constants.PlayerTypeNames.All(n => !n.Contains(nextName)))
                         {
                             return address + Player.NameOffset;
                         }
@@ -119,6 +122,18 @@ namespace H3Hacker.GameMemory
                 }
             }
             return IntPtr.Zero;
+        }
+
+        private string ReadPlayerName(IntPtr address)
+        {
+            const int MinNameBytesLength = 4;
+            var nameRead = Encoding.GetEncoding(Constants.Encoding).GetString(this.memory.ReadMemory(address, MinNameBytesLength));
+            return nameRead;
+        }
+
+        private static bool MatchName(string name)
+        {
+            return Constants.PlayerTypeNames.Any(n => n.Contains(name));
         }
 
         public void Dispose()
