@@ -100,31 +100,27 @@ namespace H3Hacker.GameMemory
                     {
                         continue;
                     }
-                    while (true)
+                    while ((address + Player.MemorySize).ToInt64() <= memoryRegion.BaseAddress.ToInt64() + memoryRegion.RegionSize.ToInt64() &&
+                               (address - Player.MemorySize).ToInt64() >= memoryRegion.BaseAddress.ToInt64())
                     {
-                        var nameRead = this.ReadPlayerName(address);
-                        var prevName = this.ReadPlayerName(address - Player.MemorySize);
-                        var nextName = this.ReadPlayerName(address + Player.MemorySize);
-                        if (!MatchName(prevName) && !MatchName(nextName))
+                        var prevName = this.ReadPartialPlayerName(address - Player.MemorySize);
+                        var nextName = this.ReadPartialPlayerName(address + Player.MemorySize);
+                        if (!MatchName(nextName))
                         {
+                            if (MatchName(prevName))
+                            {
+                                return address + Player.NameOffset;
+                            }
                             break;
-                        }
-                        if (Constants.PlayerTypeNames.All(n => !n.Contains(nextName)))
-                        {
-                            return address + Player.NameOffset;
                         }
                         address += Player.MemorySize;
-                        if(address.ToInt64() > memoryRegion.BaseAddress.ToInt64() + memoryRegion.RegionSize.ToInt64())
-                        {
-                            break;
-                        }
                     }
                 }
             }
             return IntPtr.Zero;
         }
 
-        private string ReadPlayerName(IntPtr address)
+        private string ReadPartialPlayerName(IntPtr address)
         {
             const int MinNameBytesLength = 4;
             var nameRead = Encoding.GetEncoding(Constants.Encoding).GetString(this.memory.ReadMemory(address, MinNameBytesLength));
@@ -133,7 +129,7 @@ namespace H3Hacker.GameMemory
 
         private static bool MatchName(string name)
         {
-            return Constants.PlayerTypeNames.Any(n => n.Contains(name));
+            return Constants.PlayerTypeNames.Any(n => n.Contains(name)) || Constants.Colors.Any(c => name.Contains(c));
         }
 
         public void Dispose()

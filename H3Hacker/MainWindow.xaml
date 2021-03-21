@@ -40,7 +40,10 @@
                 <control:BasicSkills/>
                 <control:Stats/>
                 <control:Creatures/>
-            </StackPanel>            
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="5,5,0,0">
+                <control:Items/>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </Window>

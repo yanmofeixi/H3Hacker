@@ -59,6 +59,9 @@
     <Compile Include="Controls\BasicSkills.xaml.cs">
       <DependentUpon>BasicSkills.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Items.xaml.cs">
+      <DependentUpon>Items.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Creatures.xaml.cs">
       <DependentUpon>Creatures.xaml</DependentUpon>
     </Compile>
@@ -66,6 +69,7 @@
       <DependentUpon>Stats.xaml</DependentUpon>
     </Compile>
     <Compile Include="GameSettings\Constants.cs" />
+    <Compile Include="Model\Item.cs" />
     <Compile Include="Model\Commander.cs" />
     <Compile Include="Model\CommanderItem.cs" />
     <Compile Include="Model\Creature.cs" />
@@ -79,12 +83,17 @@
     <Compile Include="ViewModel\BasicSkillViewModel.cs" />
     <Compile Include="ViewModel\CreatureViewModel.cs" />
     <Compile Include="ViewModel\HeroViewModel.cs" />
+    <Compile Include="ViewModel\ItemViewModel.cs" />
     <Compile Include="ViewModel\MainPageViewModel.cs" />
     <Compile Include="ViewModel\StatViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Page Include="Controls\BasicSkills.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Items.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Controls\Creatures.xaml">
       <SubType>Designer</SubType>

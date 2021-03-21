@@ -17,9 +17,9 @@ namespace H3Hacker.Controls
     /// <summary>
     /// Interaction logic for Creatures.xaml
     /// </summary>
-    public partial class Items : UserControl
+    public partial class Creatures : UserControl
     {
-        public Items()
+        public Creatures()
         {
             this.InitializeComponent();
         }

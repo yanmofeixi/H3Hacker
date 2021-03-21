@@ -14,7 +14,7 @@ namespace H3Hacker
 
         public MainWindow()
         {
-            InitializeComponent();
+            this.InitializeComponent();
             this.MainWindowPanel.DataContext = this.mainPageViewModel;
         }
 
@@ -71,7 +71,7 @@ namespace H3Hacker
 
         private void Creature_OnClick(object sender, RoutedEventArgs e)
         {
-            var creatureToAdd = "幽灵比蒙";
+            var creatureToAdd = "幽冥比蒙";
             var amountToAdd = 1;
             this.gameMemoryManager.AddCreature(
                 this.mainPageViewModel.SelectedHero.HeroIndex,

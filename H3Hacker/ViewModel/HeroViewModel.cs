@@ -113,11 +113,25 @@ namespace H3Hacker.ViewModel
             }
         }
 
+        public ObservableCollection<ItemViewModel> Items
+        {
+            get
+            {
+                var items = new ObservableCollection<ItemViewModel>();
+                for (var i = 0; i < Hero.ItemAmount; i++)
+                {
+                    items.Add(new ItemViewModel(this.hero.Items[i]));
+                }
+                return items;
+            }
+        }
+
         internal void RefreshDisplay()
         {
             this.OnPropertyChanged(nameof(this.Stats));
             this.OnPropertyChanged(nameof(this.BasicSkills));
             this.OnPropertyChanged(nameof(this.Creatures));
+            this.OnPropertyChanged(nameof(this.Items));
         }
     }
 }

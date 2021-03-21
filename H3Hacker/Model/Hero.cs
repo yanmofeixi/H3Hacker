@@ -11,6 +11,10 @@ namespace H3Hacker.Model
 
         private const int CreatureOffset = 0x6E;
 
+        private const int ItemOffset = 0x1B1;
+
+        private const int ItemCountOffset = 0x3B1;
+
         private const int StatsOffset = 0x453;
 
         private const int ManaOffset = -0xB;
@@ -25,6 +29,8 @@ namespace H3Hacker.Model
 
         internal const int CreatureAmount = 7;
 
+        internal const int ItemAmount = 64;
+
         internal Hero(IntPtr baseAddress, int playerIndex, int heroIndex) : base(baseAddress)
         {
             this.PlayerIndex = playerIndex;
@@ -36,6 +42,10 @@ namespace H3Hacker.Model
         internal Commander Commander;
 
         internal List<Creature> Creatures = new List<Creature>();
+
+        internal List<Item> Items = new List<Item>();
+
+        internal int ItemCount = 0;
 
         internal int HeroIndex;
 
@@ -56,11 +66,18 @@ namespace H3Hacker.Model
             this.Stats = memory.ReadMemory(this.BaseAddress + StatsOffset, (uint) StatsAmount);
             this.Mana = memory.ReadMemory<short>(this.BaseAddress + ManaOffset);
             this.MovementPoint = memory.ReadMemory<int>(this.BaseAddress + MovementPointOffset);
+            this.ItemCount = memory.ReadMemory<int>(this.BaseAddress + ItemCountOffset);
             for (var i = 0; i < CreatureAmount; i++)
             {
                 var creature = new Creature(this.BaseAddress + CreatureOffset + 4 * i);
                 creature.Load(memory);
                 this.Creatures.Add(creature);
+            }
+            for (var i = 0; i < ItemAmount; i++)
+            {
+                var item = new Item(this.BaseAddress + ItemOffset + 8 * i);
+                item.Load(memory);
+                this.Items.Add(item);
             }
             this.Commander = new Commander(Constants.CommanderBaseAddress + this.HeroIndex * Commander.MemorySize);
             this.Commander.Load(memory);
@@ -75,6 +92,10 @@ namespace H3Hacker.Model
             for (var i = 0; i < CreatureAmount; i++)
             {
                 this.Creatures[i].Save(memory);
+            }
+            for (var i = 0; i < ItemAmount; i++)
+            {
+                this.Items[i].Save(memory);
             }
             this.Commander.Save(memory);
         }
