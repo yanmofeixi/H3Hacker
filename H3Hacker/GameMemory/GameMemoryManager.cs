@@ -38,7 +38,9 @@ namespace H3Hacker.GameMemory
             var commander = this.game.Players[playerIndex].Heroes.SingleOrDefault(h => h.HeroIndex == heroIndex).Commander;
             for (var i = 0; i < Commander.BasicSkillAmount; i++)
             {
-                commander.BasicSkills[i] = basicSkillLevel;
+                if(basicSkillLevel > commander.BasicSkills[i]) {
+                    commander.BasicSkills[i] = basicSkillLevel;
+                }
             }
             for (var i = 0; i < itemsToAdd.Count; i++)
             {
