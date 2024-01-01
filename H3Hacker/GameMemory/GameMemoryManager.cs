@@ -1,10 +1,11 @@
-﻿using System;
+﻿using H3Hacker.GameSettings;
+using H3Hacker.Model;
+using H3Hacker.Utility;
+using ProcessMemoryScanner;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using H3Hacker.Model;
-using H3Hacker.GameSettings;
-using ProcessMemoryScanner;
 
 namespace H3Hacker.GameMemory
 {
@@ -16,21 +17,28 @@ namespace H3Hacker.GameMemory
 
         internal bool OpenProcess()
         {
-            try
+            foreach (var pair in Constants.ProcessNames)
             {
-                this.memory = new MemoryScanner(p => p.ProcessName.Contains("h3era"));
-                this.game = new Game(this.FindBaseAddress());
+                var processName = pair.Key;
+                var version = pair.Value;
+                try
+                {
+                    this.memory = new MemoryScanner(p => p.ProcessName.Contains(processName));
+                    this.game = new Game(this.FindBaseAddress());
+                }
+                catch (InvalidOperationException)
+                {
+                    continue;
+                }
+                if (!this.game.IsAddressValid)
+                {
+                    continue;
+                }
+                this.game.Load(this.memory);
+                GameVersion.gameVersion = version;
+                return true;
             }
-            catch(InvalidOperationException)
-            {
-                return false;
-            }
-            if (!this.game.IsAddressValid)
-            {
-                return false;
-            }
-            this.game.Load(this.memory);
-            return true;
+            return false;
         }
 
         internal void ModifyCommander(int heroIndex, int playerIndex, List<string> itemsToAdd, int basicSkillLevel)
@@ -38,7 +46,8 @@ namespace H3Hacker.GameMemory
             var commander = this.game.Players[playerIndex].Heroes.SingleOrDefault(h => h.HeroIndex == heroIndex).Commander;
             for (var i = 0; i < Commander.BasicSkillAmount; i++)
             {
-                if(basicSkillLevel > commander.BasicSkills[i]) {
+                if (basicSkillLevel > commander.BasicSkills[i])
+                {
                     commander.BasicSkills[i] = basicSkillLevel;
                 }
             }
@@ -53,7 +62,7 @@ namespace H3Hacker.GameMemory
         internal void AddCreature(int heroIndex, int playerIndex, string creatureNameToAdd, int amountToAdd)
         {
             var hero = this.game.Players[playerIndex].Heroes.SingleOrDefault(h => h.HeroIndex == heroIndex);
-            for (var i = 0; i < Hero.CreatureAmount; i++)
+            for (var i = 0; i < Hero.MaximumCreatureType; i++)
             {
                 if (!hero.Creatures[i].Exist())
                 {
@@ -67,7 +76,7 @@ namespace H3Hacker.GameMemory
 
         internal void SetAllResources(int playerIndex, int basicResourceAmount, int mithrilAmount)
         {
-            for(var i = 0; i < Player.BasicResourceTypeAmount; i++)
+            for (var i = 0; i < Player.BasicResourceTypeAmount; i++)
             {
                 this.game.Players[playerIndex].BasicResources[i] = basicResourceAmount;
             }
@@ -87,18 +96,19 @@ namespace H3Hacker.GameMemory
 
         private IntPtr FindBaseAddress()
         {
-            var memoryRegions = this.memory.FindMemoryRegion(m => 
-            m.State == 0x01000 && 
+            var memoryRegions = this.memory.FindMemoryRegion(m =>
+            m.State == 0x01000 &&
             m.Protect == 0x4 &&
             m.RegionSize.ToInt32() == 0xFF000);
-
+            //79616E6D6F6665697869
             foreach (var memoryRegion in memoryRegions)
             {
-                foreach(var name in Constants.PlayerTypeNames)
+                foreach (var name in Constants.PlayerTypeNames)
                 {
                     var nameBytes = Encoding.GetEncoding(Constants.Encoding).GetBytes(name);
+                    var nameBytesString = nameBytes.ToStringByEncoding();
                     var address = this.memory.FindByAoB(nameBytes, memoryRegion);
-                    if(address == IntPtr.Zero)
+                    if (address == IntPtr.Zero)
                     {
                         continue;
                     }

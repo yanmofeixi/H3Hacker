@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using H3Hacker.GameSettings;
+﻿using H3Hacker.GameSettings;
 using ProcessMemoryScanner;
+using System;
+using System.Collections.Generic;
 
 namespace H3Hacker.Model
 {
@@ -27,7 +27,7 @@ namespace H3Hacker.Model
 
         internal static int StatsAmount = Constants.StatsNames.Count;
 
-        internal const int CreatureAmount = 7;
+        internal const int MaximumCreatureType = 7;
 
         internal const int ItemAmount = 64;
 
@@ -61,13 +61,13 @@ namespace H3Hacker.Model
 
         internal override void Load(MemoryScanner memory)
         {
-            this.BasicSkills = memory.ReadMemory(this.BaseAddress + BasicSkillOffset, (uint) BasicSkillAmount);
+            this.BasicSkills = memory.ReadMemory(this.BaseAddress + BasicSkillOffset, (uint)BasicSkillAmount);
             this.Name = memory.ReadMemory(this.BaseAddress, 12);
-            this.Stats = memory.ReadMemory(this.BaseAddress + StatsOffset, (uint) StatsAmount);
+            this.Stats = memory.ReadMemory(this.BaseAddress + StatsOffset, (uint)StatsAmount);
             this.Mana = memory.ReadMemory<short>(this.BaseAddress + ManaOffset);
             this.MovementPoint = memory.ReadMemory<int>(this.BaseAddress + MovementPointOffset);
             this.ItemCount = memory.ReadMemory<int>(this.BaseAddress + ItemCountOffset);
-            for (var i = 0; i < CreatureAmount; i++)
+            for (var i = 0; i < MaximumCreatureType; i++)
             {
                 var creature = new Creature(this.BaseAddress + CreatureOffset + 4 * i);
                 creature.Load(memory);
@@ -89,7 +89,7 @@ namespace H3Hacker.Model
             memory.WriteMemory(this.BaseAddress + StatsOffset, this.Stats);
             memory.WriteMemory(this.BaseAddress + ManaOffset, this.Mana);
             memory.WriteMemory(this.BaseAddress + MovementPointOffset, this.MovementPoint);
-            for (var i = 0; i < CreatureAmount; i++)
+            for (var i = 0; i < MaximumCreatureType; i++)
             {
                 this.Creatures[i].Save(memory);
             }

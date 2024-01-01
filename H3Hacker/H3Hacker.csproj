@@ -82,6 +82,7 @@
     <Compile Include="Model\MemoryObject.cs" />
     <Compile Include="Model\Player.cs" />
     <Compile Include="Utility\Converters.cs" />
+    <Compile Include="Utility\GameVersion.cs" />
     <Compile Include="Utility\Utility.cs" />
     <Compile Include="ViewModel\BasicSkillViewModel.cs" />
     <Compile Include="ViewModel\CreatureViewModel.cs" />

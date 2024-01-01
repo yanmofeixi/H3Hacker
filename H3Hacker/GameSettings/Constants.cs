@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using static H3Hacker.Utility.GameVersion;
 
 namespace H3Hacker.GameSettings
 {
@@ -9,12 +10,18 @@ namespace H3Hacker.GameSettings
 
         internal static IntPtr CommanderBaseAddress = new IntPtr(0x028621B4);
 
-        internal const string Encoding = "GBK"; 
+        internal const string Encoding = "GBK";
+
+        internal static Dictionary<string, GameVersionType> ProcessNames = new Dictionary<string, GameVersionType>
+        {
+            { "h3era", GameVersionType.H3Era },
+            { "VCMI_client", GameVersionType.VCMI }
+        };
 
         internal static List<string> PlayerTypeNames = new List<string>
         {
             "电脑",
-            "Player"
+            "jiangyounanzi"
         };
 
         public static List<string> Colors = new List<string>
@@ -506,18 +513,18 @@ namespace H3Hacker.GameSettings
             "禁魔球",
             "龙之血瓶",
             "末日之刃",
-	        "天使联盟",
-	        "鬼王斗篷",
-	        "神圣血瓶",
-	        "诅咒铠甲",
-	        "天赐神兵",
-	        "龙王神力",
-	        "泰坦之箭",
-	        "海洋帽",
-	        "幻影神弓",
-	        "魔力源泉",
-	        "法师戒",
-	        "丰收之角"
+            "天使联盟",
+            "鬼王斗篷",
+            "神圣血瓶",
+            "诅咒铠甲",
+            "天赐神兵",
+            "龙王神力",
+            "泰坦之箭",
+            "海洋帽",
+            "幻影神弓",
+            "魔力源泉",
+            "法师戒",
+            "丰收之角"
         };
     }
 }

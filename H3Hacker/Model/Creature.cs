@@ -1,5 +1,5 @@
-﻿using System;
-using ProcessMemoryScanner;
+﻿using ProcessMemoryScanner;
+using System;
 
 namespace H3Hacker.Model
 {
@@ -18,13 +18,13 @@ namespace H3Hacker.Model
         internal override void Load(MemoryScanner memory)
         {
             this.Type = memory.ReadMemory<int>(this.BaseAddress);
-            this.Amount = memory.ReadMemory<int>(this.BaseAddress + 4 * Hero.CreatureAmount);
+            this.Amount = memory.ReadMemory<int>(this.BaseAddress + 4 * Hero.MaximumCreatureType);
         }
 
         internal override void Save(MemoryScanner memory)
         {
             memory.WriteMemory(this.BaseAddress, this.Type);
-            memory.WriteMemory(this.BaseAddress + 4 * Hero.CreatureAmount, this.Amount);
+            memory.WriteMemory(this.BaseAddress + 4 * Hero.MaximumCreatureType, this.Amount);
         }
 
         internal bool Exist()

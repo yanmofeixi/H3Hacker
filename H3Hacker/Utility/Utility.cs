@@ -1,13 +1,17 @@
-﻿using System.Text;
-using H3Hacker.GameSettings;
+﻿using System;
+using System.Text;
 
 namespace H3Hacker.Utility
 {
-    internal static class Utility
+    public static class Utility
     {
-        internal static string ToStringByEncoding(this byte[] data)
+        public static string ToStringByEncoding(this byte[] data, Encoding encoding = null)
         {
-            var rawString = Encoding.GetEncoding(Constants.Encoding).GetString(data);
+            if (encoding == null)
+            {
+                return BitConverter.ToString(data).Replace("-", "");
+            }
+            var rawString = encoding.GetString(data);
             for (var i = 0; i < rawString.Length; i++)
             {
                 if (rawString[i] == '\0')

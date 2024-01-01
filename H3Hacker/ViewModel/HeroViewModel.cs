@@ -1,6 +1,8 @@
-﻿using System.Collections.ObjectModel;
+﻿using H3Hacker.GameSettings;
 using H3Hacker.Model;
 using H3Hacker.Utility;
+using System.Collections.ObjectModel;
+using System.Text;
 
 namespace H3Hacker.ViewModel
 {
@@ -31,7 +33,7 @@ namespace H3Hacker.ViewModel
 
         public override string ToString()
         {
-            return this.hero.Name.ToStringByEncoding();
+            return this.hero.Name.ToStringByEncoding(Encoding.GetEncoding(Constants.Encoding));
         }
 
         public short Mana
@@ -42,11 +44,11 @@ namespace H3Hacker.ViewModel
             }
             set
             {
-                if(value < 0)
+                if (value < 0)
                 {
                     value = 0;
                 }
-                else if(value > short.MaxValue)
+                else if (value > short.MaxValue)
                 {
                     value = short.MaxValue;
                 }
@@ -105,7 +107,7 @@ namespace H3Hacker.ViewModel
             get
             {
                 var creatures = new ObservableCollection<CreatureViewModel>();
-                for (var i = 0; i < Hero.CreatureAmount; i++)
+                for (var i = 0; i < Hero.MaximumCreatureType; i++)
                 {
                     creatures.Add(new CreatureViewModel(this.hero.Creatures[i]));
                 }
